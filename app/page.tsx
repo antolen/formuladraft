@@ -40,7 +40,7 @@ export default function Home() {
       </section>
 
       <h2 className="text-2xl mb-2">Race Results</h2>
-      <section className="w-full h-[400px] overflow-scroll">
+      <section className="w-full h-[600px] overflow-scroll">
         <table className="w-full bg-white text-left whitespace-nowrap table-fixed p-2">
           <thead className="text-white w-full">
             <tr className="w-full mb-4">
