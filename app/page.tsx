@@ -3,7 +3,7 @@ import { allRaces } from "./static/races";
 import { resultOne, resultTwo, RaceResults } from './static/raceResults';
 import { getPointsByDriver } from "./utils/getPointsByDriver";
 import { getPointsByPerson } from "./utils/getPointsByPerson";
-
+import  DraftResults from './components/DraftResults';
 
 const getRaceLocation = (loc: { country: string; locality: string }) => {
   if (loc.country === 'USA' || loc.country === 'United States') {
@@ -13,31 +13,32 @@ const getRaceLocation = (loc: { country: string; locality: string }) => {
   return loc.country
 }
 
-export default function Home() {
-  const racesCount = allRaces.MRData.RaceTable.Races.length;
+async function getData(): Promise<RaceResults|null> {
+  const res = await fetch('http://ergast.com/api/f1/current/last/results.json');
 
-  const allResults = [resultOne, resultTwo];
+  if (!res.ok) {
+    return null;
+  }
+
+  return res.json()
+}
+export default async function Home() {
+  const racesCount = allRaces.MRData.RaceTable.Races.length;
+  const latestRaceResults = await getData();
+
+  const allResults: RaceResults[] = [resultOne, resultTwo];
+
+  if (latestRaceResults && latestRaceResults?.MRData?.RaceTable?.round !== resultTwo.MRData.RaceTable.round) {
+    allResults.push(latestRaceResults);
+  }
+
   const driverStats = getPointsByDriver(allResults);
   const pointsByPerson = getPointsByPerson(driverStats);
-  const peopleKeys = Object.keys(pointsByPerson).sort((a, b) => pointsByPerson[b] - pointsByPerson[a]);
+  const peopleKeys = Object.keys(pointsByPerson).sort((a, b) => pointsByPerson[b].total - pointsByPerson[a].total);
 
   return (
     <main className="min-h-screen p-8 sm:p-24 sm:py-12 overflow-hidden">
-      <section className="mb-10 pt-2 pb-2 pr-2 border-red-500 border-t-8 border-r-8 border-b-8 rounded-r-2xl  ">
-      <h1 className="text-3xl mb-2">Draft Results</h1>
-
-      <ul>
-        {peopleKeys.map((team, index) => (
-          <li className="flex text-black bg-white my-1 py-5 px-4 rounded-md" key={team}>
-            <span className="text-xs self-center font-bold mr-3">{index + 1}</span>
-            <span className="text-lg bold font-bold flex-1">{team}</span>
-            <span className="bg-gray-100 rounded-lg overflow-hidden py-1 px-3 text-sm">
-              <span>{pointsByPerson[team]} PTS</span>
-            </span>
-          </li>
-        ))}
-      </ul>
-      </section>
+      <DraftResults peopleKeys={peopleKeys} driverStats={driverStats} pointsByPerson={pointsByPerson} />
 
       <h2 className="text-2xl mb-2">Race Results</h2>
       <section className="w-full h-[600px] overflow-scroll">
@@ -74,3 +75,4 @@ export default function Home() {
     </main>
   );
 }
+

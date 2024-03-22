@@ -2,7 +2,12 @@ import { drivers } from '../static/drivers';
 import { type DriverStats } from './getPointsByDriver';
 
 type PersonStats = {
-  [key: string]: number
+  [key: string]: {
+    total: number;
+    driverScores: {
+      [key: string]: number
+    }
+  }
 }
 export const getPointsByPerson = (allResults: DriverStats) => {
   const personStats: PersonStats = {};
@@ -17,10 +22,19 @@ export const getPointsByPerson = (allResults: DriverStats) => {
        const points = Math.abs(Number(driverResults[raceKey]) - 21);
 
        if (!personStats[currentDriver.pick]) {
-         personStats[currentDriver.pick] = 0;
+         personStats[currentDriver.pick] = {
+          total: 0,
+          driverScores: {}
+        };
        }
 
-       personStats[currentDriver.pick] += points ;
+       // Add points per driver too
+       personStats[currentDriver.pick].total += points;
+       if (!personStats[currentDriver.pick].driverScores[currentDriver.name]) {
+        personStats[currentDriver.pick].driverScores[currentDriver.name] = points;
+       } else {
+        personStats[currentDriver.pick].driverScores[currentDriver.name] += points;
+       }
       }
     });
   });
