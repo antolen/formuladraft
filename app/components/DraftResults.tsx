@@ -16,7 +16,7 @@ const ClosedIcon = () => (
   border-b-[7px] border-b-transparent">
 </div>
 )
-export default ({ peopleKeys, pointsByPerson }: any ) => {
+const DriverResults = ({ peopleKeys, pointsByPerson }: any ) => {
   const [currentExpandedTeam, updateCurrentExpandedTeam] = useState('');
 
   const toggleExpanded = (team: string) => {
@@ -55,3 +55,5 @@ export default ({ peopleKeys, pointsByPerson }: any ) => {
     </section>
   )
 }
+
+export default DriverResults;
