@@ -1,6 +1,7 @@
 export type RaceResults = {
   MRData: {
     RaceTable: {
+      round: string;
       Races: {
         raceName: string;
         Circuit: {
