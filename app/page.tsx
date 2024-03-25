@@ -1,6 +1,6 @@
 
 import { allRaces } from "./static/races";
-import { resultOne, resultTwo, RaceResults } from './static/raceResults';
+import { resultOne, resultTwo, resultThree, RaceResults } from './static/raceResults';
 import { getPointsByDriver } from "./utils/getPointsByDriver";
 import { getPointsByPerson } from "./utils/getPointsByPerson";
 import  DraftResults from './components/DraftResults';
@@ -24,13 +24,8 @@ async function getData(): Promise<RaceResults|null> {
 }
 export default async function Home() {
   const racesCount = allRaces.MRData.RaceTable.Races.length;
-  const latestRaceResults = await getData();
 
-  const allResults: RaceResults[] = [resultOne, resultTwo];
-
-  if (latestRaceResults && latestRaceResults?.MRData?.RaceTable?.round !== resultTwo.MRData.RaceTable.round) {
-    allResults.push(latestRaceResults);
-  }
+  const allResults: RaceResults[] = [resultOne, resultTwo, resultThree];
 
   const driverStats = getPointsByDriver(allResults);
   const pointsByPerson = getPointsByPerson(driverStats);
