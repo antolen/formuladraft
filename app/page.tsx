@@ -26,11 +26,11 @@ async function getRaceResults() {
     } else {
       // @ts-ignore
       if (checkForNewRace(formulaResults.results.length)) {
-        const newResult = await fetchApiResult(formulaResults?.results?.length);
+        const newResult = await fetchApiResult(formulaResults?.results?.length + 1);
         if (newResult) {
           const newFormattedResult = formatSingleResult(newResult);
           formulaResults.results.push(newFormattedResult);
-          await kv.set('formula', newFormattedResult);
+          await kv.set('formula', formulaResults);
         }
       }
 
@@ -71,7 +71,6 @@ export default async function Home() {
   const driverStats = getPointsByDriver(raceResults.results);
   const pointsByPerson = getPointsByPerson(driverStats);
   const peopleKeys = Object.keys(pointsByPerson).sort((a, b) => pointsByPerson[b].total - pointsByPerson[a].total);
-
 
   return (
     <main className="min-h-screen p-8 sm:p-24 sm:py-12 overflow-hidden">
