@@ -1,9 +1,48 @@
+import { kv } from '@vercel/kv';
 
 import { allRaces } from "./static/races";
-import { resultOne, resultTwo, resultThree, RaceResults } from './static/raceResults';
+import { resultOne, resultTwo, resultThree, RaceResults, FormattedRaceResult } from './static/raceResults';
 import { getPointsByDriver } from "./utils/getPointsByDriver";
 import { getPointsByPerson } from "./utils/getPointsByPerson";
 import  DraftResults from './components/DraftResults';
+import { formatRaceResults, formatSingleResult } from './utils/formatRaceResults';
+import { checkForNewRace } from './utils/checkForNewRace';
+
+const fillResults = async () => {
+  const allResults: RaceResults[] = [resultOne, resultTwo, resultThree];
+  const formatted = formatRaceResults(allResults);
+
+  await kv.set('formula',  formatted );
+  return formatted;
+}
+
+
+async function getRaceResults() {
+  try {
+    const formulaResults: { results: FormattedRaceResult[] } | null = await kv.get('formula');
+
+    if (!formulaResults) {
+      console.log('MISSING DATA');
+    } else {
+      // @ts-ignore
+      if (checkForNewRace(formulaResults.results.length)) {
+        const newResult = await fetchApiResult(formulaResults?.results?.length);
+        if (newResult) {
+          const newFormattedResult = formatSingleResult(newResult);
+          formulaResults.results.push(newFormattedResult);
+          await kv.set('formula', newFormattedResult);
+        }
+      }
+
+      return formulaResults as { results: FormattedRaceResult[] };
+    }
+  } catch (error) {
+    console.log('error fetching results', error)
+  }
+
+  const allResults: RaceResults[] = [resultOne, resultTwo, resultThree];
+  return formatRaceResults(allResults);
+}
 
 const getRaceLocation = (loc: { country: string; locality: string }) => {
   if (loc.country === 'USA' || loc.country === 'United States') {
@@ -13,23 +52,26 @@ const getRaceLocation = (loc: { country: string; locality: string }) => {
   return loc.country
 }
 
-async function getData(): Promise<RaceResults|null> {
-  const res = await fetch('http://ergast.com/api/f1/current/last/results.json');
+async function fetchApiResult(id: number): Promise<RaceResults|null> {
+  const res = await fetch(`https://ergast.com/api/f1/2024/${id}/results.json`);
 
   if (!res.ok) {
+    console.log('error fetching results', res);
     return null;
   }
 
   return res.json()
 }
+
+
 export default async function Home() {
   const racesCount = allRaces.MRData.RaceTable.Races.length;
+  const raceResults: { results: FormattedRaceResult[] } = await getRaceResults();
 
-  const allResults: RaceResults[] = [resultOne, resultTwo, resultThree];
-
-  const driverStats = getPointsByDriver(allResults);
+  const driverStats = getPointsByDriver(raceResults.results);
   const pointsByPerson = getPointsByPerson(driverStats);
   const peopleKeys = Object.keys(pointsByPerson).sort((a, b) => pointsByPerson[b].total - pointsByPerson[a].total);
+
 
   return (
     <main className="min-h-screen p-8 sm:p-24 sm:py-12 overflow-hidden">

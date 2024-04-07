@@ -1,5 +1,5 @@
 
-import { type RaceResults, type Result } from '../static/raceResults';
+import { type FormattedRaceResult, type FormattedDriverResult, type Result } from '../static/raceResults';
 import { drivers } from '../static/drivers';
 
 export type DriverStats = {
@@ -8,9 +8,9 @@ export type DriverStats = {
   }
 }
 
-const matchReplacementsToDriver = (raceName: string, replacements: Result[], driverStats: DriverStats) => {
+const matchReplacementsToDriver = (raceName: string, replacements: FormattedDriverResult[], driverStats: DriverStats) => {
   replacements.forEach((replacement) => {
-    const replacementTeam = replacement.Constructor.constructorId;
+    const replacementTeam = replacement.team;
 
     const teamDrivers = {} as {
       [key: string]: string[]
@@ -32,22 +32,22 @@ const matchReplacementsToDriver = (raceName: string, replacements: Result[], dri
 
     driverStats[replacedDriver] = {
       ...driverStats[replacedDriver],
-      [raceName]: replacement.positionText,
+      [raceName]: replacement.position,
     }
 
   })
 }
 
-export const getPointsByDriver = (allResults: RaceResults[]) => {
+export const getPointsByDriver = (allResults: FormattedRaceResult[]) => {
   const driverStats: DriverStats = {};
 
   allResults.forEach(race => {
-    const raceName = race.MRData.RaceTable.Races[0].raceName;
-    const replacements: Result[] = [];
-    race.MRData.RaceTable.Races[0].Results.forEach((result) => {
+    const raceName = race.raceName;
+    const replacements: FormattedDriverResult[] = [];
+    race.results.forEach((result) => {
 
-      const driverId = result.Driver.driverId;
-      const driver = result.Driver.givenName + ' ' + result.Driver.familyName;
+      const driverId = result.driver.id;
+      const driver = result.driver.name;
 
       if (!drivers[driverId]) {
         replacements.push(result);
@@ -58,7 +58,7 @@ export const getPointsByDriver = (allResults: RaceResults[]) => {
 
         driverStats[driver] = {
           ...driverStats[driver],
-          [raceName]: result.positionText
+          [raceName]: result.position
         };
       }
     });
