@@ -1,3 +1,5 @@
+export const revalidate = 60;
+
 import { kv } from '@vercel/kv';
 
 import { allRaces } from "./static/races";
