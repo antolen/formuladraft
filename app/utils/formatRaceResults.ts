@@ -1,27 +1,28 @@
-import { FormattedRaceResult, RaceResults } from "../static/raceResults";
+import { AllResults, Race } from "../static/raceResults";
 
-export const formatSingleResult = (race: RaceResults) => {
-  const driverResults = race.MRData.RaceTable.Races[0].Results.map((result) => ({
-    position: result.positionText,
-    team: result.Constructor.constructorId,
+export const formatSingleResult = (race: Race) => {
+  const driverResults = race.results.map((result) => ({
+    position: result.pos,
+    team: result.team,
     driver: {
-      id: result.Driver.driverId,
-      name: result.Driver.givenName + ' ' + result.Driver.familyName,
+      id: result.driver_slug,
+      name: result.name,
     }
   }));
 
   return ({
-    round: race.MRData.RaceTable.round,
-    raceName: race.MRData.RaceTable.Races[0].raceName,
+    round: race.race_id,
+    raceName: race.race_name,
     circuit: {
-      country: race.MRData.RaceTable.Races[0].Circuit.Location.country,
-      locality: race.MRData.RaceTable.Races[0].Circuit.Location.locality
+      country: race.country,
+      locality: race.race_name,
     },
     results: driverResults,
   })
 }
-export const formatRaceResults = (apiResults: RaceResults[]) => {
-  return apiResults.reduce((formattedData: { results: FormattedRaceResult[] },race) => {
+
+export const formatRaceResults = (apiResults: AllResults) => {
+  return apiResults.data.reduce((formattedData: { results: any[] }, race) => {
     const formattedResult = formatSingleResult(race);
     formattedData.results.push(formattedResult);
 

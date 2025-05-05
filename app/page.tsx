@@ -3,23 +3,16 @@ export const revalidate = 60;
 import { kv } from '@vercel/kv';
 
 import { allRaces } from "./static/races";
-import { resultOne, resultTwo, resultThree, RaceResults, FormattedRaceResult } from './static/raceResults';
+import { allResults, AllResults, FormattedRaceResult } from './static/raceResults';
 import { getPointsByDriver } from "./utils/getPointsByDriver";
 import { getPointsByPerson } from "./utils/getPointsByPerson";
 import  DraftResults from './components/DraftResults';
 import { formatRaceResults, formatSingleResult } from './utils/formatRaceResults';
 import { checkForNewRace } from './utils/checkForNewRace';
 
-const fillResults = async () => {
-  const allResults: RaceResults[] = [resultOne, resultTwo, resultThree];
-  const formatted = formatRaceResults(allResults);
-
-  await kv.set('formula',  formatted );
-  return formatted;
-}
-
 
 async function getRaceResults() {
+  /*
   try {
     const formulaResults: { results: FormattedRaceResult[] } | null = await kv.get('formula');
 
@@ -41,21 +34,13 @@ async function getRaceResults() {
   } catch (error) {
     console.log('error fetching results', error)
   }
+  */
 
-  const allResults: RaceResults[] = [resultOne, resultTwo, resultThree];
   return formatRaceResults(allResults);
 }
 
-const getRaceLocation = (loc: { country: string; locality: string }) => {
-  if (loc.country === 'USA' || loc.country === 'United States') {
-    return loc.locality
-  }
-
-  return loc.country
-}
-
-async function fetchApiResult(id: number): Promise<RaceResults|null> {
-  const res = await fetch(`https://ergast.com/api/f1/2024/${id}/results.json`);
+async function fetchApiResult(id: number): Promise<AllResults|null> {
+  const res = await fetch(`https://sports-api.prod.ps-aws.com/api/motor/seasons/2025/results`);
 
   if (!res.ok) {
     console.log('error fetching results', res);
@@ -67,7 +52,7 @@ async function fetchApiResult(id: number): Promise<RaceResults|null> {
 
 
 export default async function Home() {
-  const racesCount = allRaces.MRData.RaceTable.Races.length;
+  const racesCount = allRaces.length;
   const raceResults: { results: FormattedRaceResult[] } = await getRaceResults();
 
   const driverStats = getPointsByDriver(raceResults.results);
@@ -84,11 +69,11 @@ export default async function Home() {
           <thead className="text-white w-full">
             <tr className="w-full mb-4">
               <th className="bg-black p-2 p-2 sticky left-0 top-0 z-20 w-[180px]">Driver</th>
-              {allRaces.MRData.RaceTable.Races.map((race) => (
-                <th key={race.raceName} className="bg-black p-2 whitespace-nowrap sticky z-5 top-0 w-[130px]">
-                  {getRaceLocation(race.Circuit.Location)}
+              {allRaces.map((race) => (
+                <th key={race.name} className="bg-black p-2 whitespace-nowrap sticky z-5 top-0 w-[130px]">
+                  {race.name}
                   <br />
-                  {new Date(race.date.split('-').join(',')).toDateString().replace('2024', '')}
+                  {race.date}
                 </th>
               ))}
             </tr>
