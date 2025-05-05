@@ -17,26 +17,28 @@ export const getPointsByPerson = (allResults: DriverStats) => {
     const driverResults = allResults[currentDriver.name];
 
     // map over each race result
-    Object.keys(driverResults).forEach((raceKey) => {
-      if (Number(driverResults[raceKey])) {
-       const points = Math.abs(Number(driverResults[raceKey]) - 21);
+    if (driverResults) {
+      Object.keys(driverResults).forEach((raceKey) => {
+        if (Number(driverResults[raceKey])) {
+        const points = Math.abs(Number(driverResults[raceKey]) - 21);
 
-       if (!personStats[currentDriver.pick]) {
-         personStats[currentDriver.pick] = {
-          total: 0,
-          driverScores: {}
-        };
-       }
+        if (!personStats[currentDriver.pick]) {
+          personStats[currentDriver.pick] = {
+            total: 0,
+            driverScores: {}
+          };
+        }
 
-       // Add points per driver too
-       personStats[currentDriver.pick].total += points;
-       if (!personStats[currentDriver.pick].driverScores[currentDriver.name]) {
-        personStats[currentDriver.pick].driverScores[currentDriver.name] = points;
-       } else {
-        personStats[currentDriver.pick].driverScores[currentDriver.name] += points;
-       }
-      }
-    });
+        // Add points per driver too
+        personStats[currentDriver.pick].total += points;
+        if (!personStats[currentDriver.pick].driverScores[currentDriver.name]) {
+          personStats[currentDriver.pick].driverScores[currentDriver.name] = points;
+        } else {
+          personStats[currentDriver.pick].driverScores[currentDriver.name] += points;
+        }
+        }
+      });
+    }
   });
 
   return personStats;

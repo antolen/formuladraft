@@ -1,32 +1,33 @@
-export type RaceResults = {
-  MRData: {
-    RaceTable: {
-      round: string;
-      Races: {
-        raceName: string;
-        Circuit: {
-          Location: {
-            country: string;
-            locality: string;
-          }
-        }
-        Results: Result[]
-      }[]
-    }
-  }
+export type AllResults = {
+  data: Race[];
 }
 
+export type Race = {
+  race_id: number;
+  race_name: string;
+  venue_name: string;
+  match_date: string;
+  start_date: string;
+  end_date: string;
+  country: string;
+  country_code: string;
+  sessions: string[];
+  results: Result[];
+};
+
 export type Result = {
-  Driver: {
-    driverId: string;
-    givenName: string;
-    familyName: string;
-  }
-  positionText: string;
-  Constructor: {
-    constructorId: string;
-  }
-}
+  gap: string;
+  pos: string;
+  laps: string;
+  name: string;
+  pits: string;
+  team: string;
+  time: string;
+  point: number;
+  country: string;
+  team_slug: string;
+  driver_slug: string;
+};
 
 export type FormattedRaceResult = {
   round: string;
@@ -36,19 +37,1724 @@ export type FormattedRaceResult = {
     country: string;
     locality: string
   }
-}
-
+};
+  
 export type FormattedDriverResult = {
   position: string;
   driver: {
     id: string;
     name: string;
-  },
+  };
   team: string;
 }
 
-export const resultOne = {"MRData":{"xmlns":"http:\/\/ergast.com\/mrd\/1.5","series":"f1","url":"http://ergast.com/api/f1/2024/1/results.json","limit":"30","offset":"0","total":"20","RaceTable":{"season":"2024","round":"1","Races":[{"season":"2024","round":"1","url":"https:\/\/en.wikipedia.org\/wiki\/2024_Bahrain_Grand_Prix","raceName":"Bahrain Grand Prix","Circuit":{"circuitId":"bahrain","url":"http://en.wikipedia.org/wiki/Bahrain_International_Circuit","circuitName":"Bahrain International Circuit","Location":{"lat":"26.0325","long":"50.5106","locality":"Sakhir","country":"Bahrain"}},"date":"2024-03-02","time":"15:00:00Z","Results":[{"number":"1","position":"1","positionText":"1","points":"26","Driver":{"driverId":"max_verstappen","permanentNumber":"33","code":"VER","url":"http:\/\/en.wikipedia.org\/wiki\/Max_Verstappen","givenName":"Max","familyName":"Verstappen","dateOfBirth":"1997-09-30","nationality":"Dutch"},"Constructor":{"constructorId":"red_bull","url":"http:\/\/en.wikipedia.org\/wiki\/Red_Bull_Racing","name":"Red Bull","nationality":"Austrian"},"grid":"1","laps":"57","status":"Finished","Time":{"millis":"5504742","time":"1:31:44.742"},"FastestLap":{"rank":"1","lap":"39","Time":{"time":"1:32.608"},"AverageSpeed":{"units":"kph","speed":"210.383"}}},{"number":"11","position":"2","positionText":"2","points":"18","Driver":{"driverId":"perez","permanentNumber":"11","code":"PER","url":"http:\/\/en.wikipedia.org\/wiki\/Sergio_P%C3%A9rez","givenName":"Sergio","familyName":"Pérez","dateOfBirth":"1990-01-26","nationality":"Mexican"},"Constructor":{"constructorId":"red_bull","url":"http:\/\/en.wikipedia.org\/wiki\/Red_Bull_Racing","name":"Red Bull","nationality":"Austrian"},"grid":"5","laps":"57","status":"Finished","Time":{"millis":"5527199","time":"+22.457"},"FastestLap":{"rank":"4","lap":"40","Time":{"time":"1:34.364"},"AverageSpeed":{"units":"kph","speed":"206.468"}}},{"number":"55","position":"3","positionText":"3","points":"15","Driver":{"driverId":"sainz","permanentNumber":"55","code":"SAI","url":"http:\/\/en.wikipedia.org\/wiki\/Carlos_Sainz_Jr.","givenName":"Carlos","familyName":"Sainz","dateOfBirth":"1994-09-01","nationality":"Spanish"},"Constructor":{"constructorId":"ferrari","url":"http:\/\/en.wikipedia.org\/wiki\/Scuderia_Ferrari","name":"Ferrari","nationality":"Italian"},"grid":"4","laps":"57","status":"Finished","Time":{"millis":"5529852","time":"+25.110"},"FastestLap":{"rank":"6","lap":"44","Time":{"time":"1:34.507"},"AverageSpeed":{"units":"kph","speed":"206.156"}}},{"number":"16","position":"4","positionText":"4","points":"12","Driver":{"driverId":"leclerc","permanentNumber":"16","code":"LEC","url":"http:\/\/en.wikipedia.org\/wiki\/Charles_Leclerc","givenName":"Charles","familyName":"Leclerc","dateOfBirth":"1997-10-16","nationality":"Monegasque"},"Constructor":{"constructorId":"ferrari","url":"http:\/\/en.wikipedia.org\/wiki\/Scuderia_Ferrari","name":"Ferrari","nationality":"Italian"},"grid":"2","laps":"57","status":"Finished","Time":{"millis":"5544411","time":"+39.669"},"FastestLap":{"rank":"2","lap":"36","Time":{"time":"1:34.090"},"AverageSpeed":{"units":"kph","speed":"207.069"}}},{"number":"63","position":"5","positionText":"5","points":"10","Driver":{"driverId":"russell","permanentNumber":"63","code":"RUS","url":"http:\/\/en.wikipedia.org\/wiki\/George_Russell_(racing_driver)","givenName":"George","familyName":"Russell","dateOfBirth":"1998-02-15","nationality":"British"},"Constructor":{"constructorId":"mercedes","url":"http:\/\/en.wikipedia.org\/wiki\/Mercedes-Benz_in_Formula_One","name":"Mercedes","nationality":"German"},"grid":"3","laps":"57","status":"Finished","Time":{"millis":"5551530","time":"+46.788"},"FastestLap":{"rank":"12","lap":"40","Time":{"time":"1:35.065"},"AverageSpeed":{"units":"kph","speed":"204.946"}}},{"number":"4","position":"6","positionText":"6","points":"8","Driver":{"driverId":"norris","permanentNumber":"4","code":"NOR","url":"http:\/\/en.wikipedia.org\/wiki\/Lando_Norris","givenName":"Lando","familyName":"Norris","dateOfBirth":"1999-11-13","nationality":"British"},"Constructor":{"constructorId":"mclaren","url":"http:\/\/en.wikipedia.org\/wiki\/McLaren","name":"McLaren","nationality":"British"},"grid":"7","laps":"57","status":"Finished","Time":{"millis":"5553200","time":"+48.458"},"FastestLap":{"rank":"5","lap":"1","Time":{"time":"1:34.476"},"AverageSpeed":{"units":"kph","speed":"206.223"}}},{"number":"44","position":"7","positionText":"7","points":"6","Driver":{"driverId":"hamilton","permanentNumber":"44","code":"HAM","url":"http:\/\/en.wikipedia.org\/wiki\/Lewis_Hamilton","givenName":"Lewis","familyName":"Hamilton","dateOfBirth":"1985-01-07","nationality":"British"},"Constructor":{"constructorId":"mercedes","url":"http:\/\/en.wikipedia.org\/wiki\/Mercedes-Benz_in_Formula_One","name":"Mercedes","nationality":"German"},"grid":"9","laps":"57","status":"Finished","Time":{"millis":"5555066","time":"+50.324"},"FastestLap":{"rank":"7","lap":"39","Time":{"time":"1:34.722"},"AverageSpeed":{"units":"kph","speed":"205.688"}}},{"number":"81","position":"8","positionText":"8","points":"4","Driver":{"driverId":"piastri","permanentNumber":"81","code":"PIA","url":"http:\/\/en.wikipedia.org\/wiki\/Oscar_Piastri","givenName":"Oscar","familyName":"Piastri","dateOfBirth":"2001-04-06","nationality":"Australian"},"Constructor":{"constructorId":"mclaren","url":"http:\/\/en.wikipedia.org\/wiki\/McLaren","name":"McLaren","nationality":"British"},"grid":"8","laps":"57","status":"Finished","Time":{"millis":"5560824","time":"+56.082"},"FastestLap":{"rank":"11","lap":"1","Time":{"time":"1:34.983"},"AverageSpeed":{"units":"kph","speed":"205.123"}}},{"number":"14","position":"9","positionText":"9","points":"2","Driver":{"driverId":"alonso","permanentNumber":"14","code":"ALO","url":"http:\/\/en.wikipedia.org\/wiki\/Fernando_Alonso","givenName":"Fernando","familyName":"Alonso","dateOfBirth":"1981-07-29","nationality":"Spanish"},"Constructor":{"constructorId":"aston_martin","url":"http:\/\/en.wikipedia.org\/wiki\/Aston_Martin_in_Formula_One","name":"Aston Martin","nationality":"British"},"grid":"6","laps":"57","status":"Finished","Time":{"millis":"5579629","time":"+1:14.887"},"FastestLap":{"rank":"3","lap":"48","Time":{"time":"1:34.199"},"AverageSpeed":{"units":"kph","speed":"206.830"}}},{"number":"18","position":"10","positionText":"10","points":"1","Driver":{"driverId":"stroll","permanentNumber":"18","code":"STR","url":"http:\/\/en.wikipedia.org\/wiki\/Lance_Stroll","givenName":"Lance","familyName":"Stroll","dateOfBirth":"1998-10-29","nationality":"Canadian"},"Constructor":{"constructorId":"aston_martin","url":"http:\/\/en.wikipedia.org\/wiki\/Aston_Martin_in_Formula_One","name":"Aston Martin","nationality":"British"},"grid":"12","laps":"57","status":"Finished","Time":{"millis":"5597958","time":"+1:33.216"},"FastestLap":{"rank":"16","lap":"30","Time":{"time":"1:35.632"},"AverageSpeed":{"units":"kph","speed":"203.730"}}},{"number":"24","position":"11","positionText":"11","points":"0","Driver":{"driverId":"zhou","permanentNumber":"24","code":"ZHO","url":"http:\/\/en.wikipedia.org\/wiki\/Zhou_Guanyu","givenName":"Guanyu","familyName":"Zhou","dateOfBirth":"1999-05-30","nationality":"Chinese"},"Constructor":{"constructorId":"sauber","url":"http:\/\/en.wikipedia.org\/wiki\/Sauber","name":"Sauber","nationality":"Swiss"},"grid":"17","laps":"56","status":"+1 Lap","FastestLap":{"rank":"14","lap":"30","Time":{"time":"1:35.458"},"AverageSpeed":{"units":"kph","speed":"204.102"}}},{"number":"20","position":"12","positionText":"12","points":"0","Driver":{"driverId":"kevin_magnussen","permanentNumber":"20","code":"MAG","url":"http:\/\/en.wikipedia.org\/wiki\/Kevin_Magnussen","givenName":"Kevin","familyName":"Magnussen","dateOfBirth":"1992-10-05","nationality":"Danish"},"Constructor":{"constructorId":"haas","url":"http:\/\/en.wikipedia.org\/wiki\/Haas_F1_Team","name":"Haas F1 Team","nationality":"American"},"grid":"15","laps":"56","status":"+1 Lap","FastestLap":{"rank":"15","lap":"34","Time":{"time":"1:35.570"},"AverageSpeed":{"units":"kph","speed":"203.863"}}},{"number":"3","position":"13","positionText":"13","points":"0","Driver":{"driverId":"ricciardo","permanentNumber":"3","code":"RIC","url":"http:\/\/en.wikipedia.org\/wiki\/Daniel_Ricciardo","givenName":"Daniel","familyName":"Ricciardo","dateOfBirth":"1989-07-01","nationality":"Australian"},"Constructor":{"constructorId":"rb","url":"http:\/\/en.wikipedia.org\/wiki\/RB_Formula_One_Team","name":"RB F1 Team","nationality":"Italian"},"grid":"14","laps":"56","status":"+1 Lap","FastestLap":{"rank":"13","lap":"37","Time":{"time":"1:35.163"},"AverageSpeed":{"units":"kph","speed":"204.735"}}},{"number":"22","position":"14","positionText":"14","points":"0","Driver":{"driverId":"tsunoda","permanentNumber":"22","code":"TSU","url":"http:\/\/en.wikipedia.org\/wiki\/Yuki_Tsunoda","givenName":"Yuki","familyName":"Tsunoda","dateOfBirth":"2000-05-11","nationality":"Japanese"},"Constructor":{"constructorId":"rb","url":"http:\/\/en.wikipedia.org\/wiki\/RB_Formula_One_Team","name":"RB F1 Team","nationality":"Italian"},"grid":"11","laps":"56","status":"+1 Lap","FastestLap":{"rank":"18","lap":"37","Time":{"time":"1:35.833"},"AverageSpeed":{"units":"kph","speed":"203.303"}}},{"number":"23","position":"15","positionText":"15","points":"0","Driver":{"driverId":"albon","permanentNumber":"23","code":"ALB","url":"http:\/\/en.wikipedia.org\/wiki\/Alexander_Albon","givenName":"Alexander","familyName":"Albon","dateOfBirth":"1996-03-23","nationality":"Thai"},"Constructor":{"constructorId":"williams","url":"http:\/\/en.wikipedia.org\/wiki\/Williams_Grand_Prix_Engineering","name":"Williams","nationality":"British"},"grid":"13","laps":"56","status":"+1 Lap","FastestLap":{"rank":"17","lap":"40","Time":{"time":"1:35.723"},"AverageSpeed":{"units":"kph","speed":"203.537"}}},{"number":"27","position":"16","positionText":"16","points":"0","Driver":{"driverId":"hulkenberg","permanentNumber":"27","code":"HUL","url":"http:\/\/en.wikipedia.org\/wiki\/Nico_H%C3%BClkenberg","givenName":"Nico","familyName":"Hülkenberg","dateOfBirth":"1987-08-19","nationality":"German"},"Constructor":{"constructorId":"haas","url":"http:\/\/en.wikipedia.org\/wiki\/Haas_F1_Team","name":"Haas F1 Team","nationality":"American"},"grid":"10","laps":"56","status":"+1 Lap","FastestLap":{"rank":"10","lap":"46","Time":{"time":"1:34.834"},"AverageSpeed":{"units":"kph","speed":"205.445"}}},{"number":"31","position":"17","positionText":"17","points":"0","Driver":{"driverId":"ocon","permanentNumber":"31","code":"OCO","url":"http:\/\/en.wikipedia.org\/wiki\/Esteban_Ocon","givenName":"Esteban","familyName":"Ocon","dateOfBirth":"1996-09-17","nationality":"French"},"Constructor":{"constructorId":"alpine","url":"http:\/\/en.wikipedia.org\/wiki\/Alpine_F1_Team","name":"Alpine F1 Team","nationality":"French"},"grid":"19","laps":"56","status":"+1 Lap","FastestLap":{"rank":"20","lap":"34","Time":{"time":"1:36.226"},"AverageSpeed":{"units":"kph","speed":"202.473"}}},{"number":"10","position":"18","positionText":"18","points":"0","Driver":{"driverId":"gasly","permanentNumber":"10","code":"GAS","url":"http:\/\/en.wikipedia.org\/wiki\/Pierre_Gasly","givenName":"Pierre","familyName":"Gasly","dateOfBirth":"1996-02-07","nationality":"French"},"Constructor":{"constructorId":"alpine","url":"http:\/\/en.wikipedia.org\/wiki\/Alpine_F1_Team","name":"Alpine F1 Team","nationality":"French"},"grid":"20","laps":"56","status":"+1 Lap","FastestLap":{"rank":"9","lap":"45","Time":{"time":"1:34.805"},"AverageSpeed":{"units":"kph","speed":"205.508"}}},{"number":"77","position":"19","positionText":"19","points":"0","Driver":{"driverId":"bottas","permanentNumber":"77","code":"BOT","url":"http:\/\/en.wikipedia.org\/wiki\/Valtteri_Bottas","givenName":"Valtteri","familyName":"Bottas","dateOfBirth":"1989-08-28","nationality":"Finnish"},"Constructor":{"constructorId":"sauber","url":"http:\/\/en.wikipedia.org\/wiki\/Sauber","name":"Sauber","nationality":"Swiss"},"grid":"16","laps":"56","status":"+1 Lap","FastestLap":{"rank":"19","lap":"33","Time":{"time":"1:36.202"},"AverageSpeed":{"units":"kph","speed":"202.523"}}},{"number":"2","position":"20","positionText":"20","points":"0","Driver":{"driverId":"sargeant","permanentNumber":"2","code":"SAR","url":"http:\/\/en.wikipedia.org\/wiki\/Logan_Sargeant","givenName":"Logan","familyName":"Sargeant","dateOfBirth":"2000-12-31","nationality":"American"},"Constructor":{"constructorId":"williams","url":"http:\/\/en.wikipedia.org\/wiki\/Williams_Grand_Prix_Engineering","name":"Williams","nationality":"British"},"grid":"18","laps":"55","status":"+2 Laps","FastestLap":{"rank":"8","lap":"42","Time":{"time":"1:34.735"},"AverageSpeed":{"units":"kph","speed":"205.659"}}}]}]}}};
-export const resultTwo = {"MRData":{"xmlns":"http:\/\/ergast.com\/mrd\/1.5","series":"f1","url":"http://ergast.com/api/f1/2024/2/results.json","limit":"30","offset":"0","total":"20","RaceTable":{"season":"2024","round":"2","Races":[{"season":"2024","round":"2","url":"https:\/\/en.wikipedia.org\/wiki\/2024_Saudi_Arabian_Grand_Prix","raceName":"Saudi Arabian Grand Prix","Circuit":{"circuitId":"jeddah","url":"http://en.wikipedia.org/wiki/Jeddah_Street_Circuit","circuitName":"Jeddah Corniche Circuit","Location":{"lat":"21.6319","long":"39.1044","locality":"Jeddah","country":"Saudi Arabia"}},"date":"2024-03-09","time":"17:00:00Z","Results":[{"number":"1","position":"1","positionText":"1","points":"25","Driver":{"driverId":"max_verstappen","permanentNumber":"33","code":"VER","url":"http:\/\/en.wikipedia.org\/wiki\/Max_Verstappen","givenName":"Max","familyName":"Verstappen","dateOfBirth":"1997-09-30","nationality":"Dutch"},"Constructor":{"constructorId":"red_bull","url":"http:\/\/en.wikipedia.org\/wiki\/Red_Bull_Racing","name":"Red Bull","nationality":"Austrian"},"grid":"1","laps":"50","status":"Finished","Time":{"millis":"4843273","time":"1:20:43.273"},"FastestLap":{"rank":"3","lap":"50","Time":{"time":"1:31.773"},"AverageSpeed":{"units":"kph","speed":"242.188"}}},{"number":"11","position":"2","positionText":"2","points":"18","Driver":{"driverId":"perez","permanentNumber":"11","code":"PER","url":"http:\/\/en.wikipedia.org\/wiki\/Sergio_P%C3%A9rez","givenName":"Sergio","familyName":"Pérez","dateOfBirth":"1990-01-26","nationality":"Mexican"},"Constructor":{"constructorId":"red_bull","url":"http:\/\/en.wikipedia.org\/wiki\/Red_Bull_Racing","name":"Red Bull","nationality":"Austrian"},"grid":"3","laps":"50","status":"Finished","Time":{"millis":"4862704","time":"+13.6431"},"FastestLap":{"rank":"8","lap":"37","Time":{"time":"1:32.273"},"AverageSpeed":{"units":"kph","speed":"240.876"}}},{"number":"16","position":"3","positionText":"3","points":"16","Driver":{"driverId":"leclerc","permanentNumber":"16","code":"LEC","url":"http:\/\/en.wikipedia.org\/wiki\/Charles_Leclerc","givenName":"Charles","familyName":"Leclerc","dateOfBirth":"1997-10-16","nationality":"Monegasque"},"Constructor":{"constructorId":"ferrari","url":"http:\/\/en.wikipedia.org\/wiki\/Scuderia_Ferrari","name":"Ferrari","nationality":"Italian"},"grid":"2","laps":"50","status":"Finished","Time":{"millis":"4861912","time":"+18.639"},"FastestLap":{"rank":"1","lap":"50","Time":{"time":"1:31.632"},"AverageSpeed":{"units":"kph","speed":"242.561"}}},{"number":"81","position":"4","positionText":"4","points":"12","Driver":{"driverId":"piastri","permanentNumber":"81","code":"PIA","url":"http:\/\/en.wikipedia.org\/wiki\/Oscar_Piastri","givenName":"Oscar","familyName":"Piastri","dateOfBirth":"2001-04-06","nationality":"Australian"},"Constructor":{"constructorId":"mclaren","url":"http:\/\/en.wikipedia.org\/wiki\/McLaren","name":"McLaren","nationality":"British"},"grid":"5","laps":"50","status":"Finished","Time":{"millis":"4875280","time":"+32.007"},"FastestLap":{"rank":"10","lap":"1","Time":{"time":"1:32.310"},"AverageSpeed":{"units":"kph","speed":"240.779"}}},{"number":"14","position":"5","positionText":"5","points":"10","Driver":{"driverId":"alonso","permanentNumber":"14","code":"ALO","url":"http:\/\/en.wikipedia.org\/wiki\/Fernando_Alonso","givenName":"Fernando","familyName":"Alonso","dateOfBirth":"1981-07-29","nationality":"Spanish"},"Constructor":{"constructorId":"aston_martin","url":"http:\/\/en.wikipedia.org\/wiki\/Aston_Martin_in_Formula_One","name":"Aston Martin","nationality":"British"},"grid":"4","laps":"50","status":"Finished","Time":{"millis":"4879032","time":"+35.759"},"FastestLap":{"rank":"13","lap":"43","Time":{"time":"1:32.387"},"AverageSpeed":{"units":"kph","speed":"240.579"}}},{"number":"63","position":"6","positionText":"6","points":"8","Driver":{"driverId":"russell","permanentNumber":"63","code":"RUS","url":"http:\/\/en.wikipedia.org\/wiki\/George_Russell_(racing_driver)","givenName":"George","familyName":"Russell","dateOfBirth":"1998-02-15","nationality":"British"},"Constructor":{"constructorId":"mercedes","url":"http:\/\/en.wikipedia.org\/wiki\/Mercedes-Benz_in_Formula_One","name":"Mercedes","nationality":"German"},"grid":"7","laps":"50","status":"Finished","Time":{"millis":"4883209","time":"+39.936"},"FastestLap":{"rank":"7","lap":"42","Time":{"time":"1:32.254"},"AverageSpeed":{"units":"kph","speed":"240.926"}}},{"number":"38","position":"7","positionText":"7","points":"6","Driver":{"driverId":"bearman","permanentNumber":"38","code":"BEA","url":"http:\/\/en.wikipedia.org\/wiki\/Oliver_Bearman","givenName":"Oliver","familyName":"Bearman","dateOfBirth":"","nationality":"British"},"Constructor":{"constructorId":"ferrari","url":"http:\/\/en.wikipedia.org\/wiki\/Scuderia_Ferrari","name":"Ferrari","nationality":"Italian"},"grid":"11","laps":"50","status":"Finished","Time":{"millis":"4885952","time":"+42.679"},"FastestLap":{"rank":"5","lap":"50","Time":{"time":"1:32.186"},"AverageSpeed":{"units":"kph","speed":"241.103"}}},{"number":"4","position":"8","positionText":"8","points":"4","Driver":{"driverId":"norris","permanentNumber":"4","code":"NOR","url":"http:\/\/en.wikipedia.org\/wiki\/Lando_Norris","givenName":"Lando","familyName":"Norris","dateOfBirth":"1999-11-13","nationality":"British"},"Constructor":{"constructorId":"mclaren","url":"http:\/\/en.wikipedia.org\/wiki\/McLaren","name":"McLaren","nationality":"British"},"grid":"6","laps":"50","status":"Finished","Time":{"millis":"4888981","time":"+45.708"},"FastestLap":{"rank":"4","lap":"1","Time":{"time":"1:31.944"},"AverageSpeed":{"units":"kph","speed":"241.738"}}},{"number":"44","position":"9","positionText":"9","points":"2","Driver":{"driverId":"hamilton","permanentNumber":"44","code":"HAM","url":"http:\/\/en.wikipedia.org\/wiki\/Lewis_Hamilton","givenName":"Lewis","familyName":"Hamilton","dateOfBirth":"1985-01-07","nationality":"British"},"Constructor":{"constructorId":"mercedes","url":"http:\/\/en.wikipedia.org\/wiki\/Mercedes-Benz_in_Formula_One","name":"Mercedes","nationality":"German"},"grid":"8","laps":"50","status":"Finished","Time":{"millis":"4890664","time":"+47.391"},"FastestLap":{"rank":"2","lap":"38","Time":{"time":"1:31.746"},"AverageSpeed":{"units":"kph","speed":"242.260"}}},{"number":"27","position":"10","positionText":"10","points":"1","Driver":{"driverId":"hulkenberg","permanentNumber":"27","code":"HUL","url":"http:\/\/en.wikipedia.org\/wiki\/Nico_H%C3%BClkenberg","givenName":"Nico","familyName":"Hülkenberg","dateOfBirth":"1987-08-19","nationality":"German"},"Constructor":{"constructorId":"haas","url":"http:\/\/en.wikipedia.org\/wiki\/Haas_F1_Team","name":"Haas F1 Team","nationality":"American"},"grid":"15","laps":"50","status":"Finished","Time":{"millis":"4920269","time":"+1:16.996"},"FastestLap":{"rank":"12","lap":"49","Time":{"time":"1:32.366"},"AverageSpeed":{"units":"kph","speed":"240.633"}}},{"number":"23","position":"11","positionText":"11","points":"0","Driver":{"driverId":"albon","permanentNumber":"23","code":"ALB","url":"http:\/\/en.wikipedia.org\/wiki\/Alexander_Albon","givenName":"Alexander","familyName":"Albon","dateOfBirth":"1996-03-23","nationality":"Thai"},"Constructor":{"constructorId":"williams","url":"http:\/\/en.wikipedia.org\/wiki\/Williams_Grand_Prix_Engineering","name":"Williams","nationality":"British"},"grid":"12","laps":"50","status":"Finished","Time":{"millis":"4931627","time":"+1:28.354"},"FastestLap":{"rank":"9","lap":"50","Time":{"time":"1:32.307"},"AverageSpeed":{"units":"kph","speed":"240.787"}}},{"number":"20","position":"12","positionText":"12","points":"0","Driver":{"driverId":"kevin_magnussen","permanentNumber":"20","code":"MAG","url":"http:\/\/en.wikipedia.org\/wiki\/Kevin_Magnussen","givenName":"Kevin","familyName":"Magnussen","dateOfBirth":"1992-10-05","nationality":"Danish"},"Constructor":{"constructorId":"haas","url":"http:\/\/en.wikipedia.org\/wiki\/Haas_F1_Team","name":"Haas F1 Team","nationality":"American"},"grid":"13","laps":"50","status":"Finished","Time":{"millis":"4955646","time":"+1:45.7373"},"FastestLap":{"rank":"11","lap":"47","Time":{"time":"1:32.338"},"AverageSpeed":{"units":"kph","speed":"240.706"}}},{"number":"31","position":"13","positionText":"13","points":"0","Driver":{"driverId":"ocon","permanentNumber":"31","code":"OCO","url":"http:\/\/en.wikipedia.org\/wiki\/Esteban_Ocon","givenName":"Esteban","familyName":"Ocon","dateOfBirth":"1996-09-17","nationality":"French"},"Constructor":{"constructorId":"alpine","url":"http:\/\/en.wikipedia.org\/wiki\/Alpine_F1_Team","name":"Alpine F1 Team","nationality":"French"},"grid":"17","laps":"49","status":"+1 Lap","FastestLap":{"rank":"17","lap":"48","Time":{"time":"1:33.481"},"AverageSpeed":{"units":"kph","speed":"237.763"}}},{"number":"22","position":"14","positionText":"14","points":"0","Driver":{"driverId":"tsunoda","permanentNumber":"22","code":"TSU","url":"http:\/\/en.wikipedia.org\/wiki\/Yuki_Tsunoda","givenName":"Yuki","familyName":"Tsunoda","dateOfBirth":"2000-05-11","nationality":"Japanese"},"Constructor":{"constructorId":"rb","url":"http:\/\/en.wikipedia.org\/wiki\/RB_Formula_One_Team","name":"RB F1 Team","nationality":"Italian"},"grid":"9","laps":"49","status":"+1 Lap","FastestLap":{"rank":"18","lap":"44","Time":{"time":"1:33.523"},"AverageSpeed":{"units":"kph","speed":"237.657"}}},{"number":"2","position":"15","positionText":"15","points":"0","Driver":{"driverId":"sargeant","permanentNumber":"2","code":"SAR","url":"http:\/\/en.wikipedia.org\/wiki\/Logan_Sargeant","givenName":"Logan","familyName":"Sargeant","dateOfBirth":"2000-12-31","nationality":"American"},"Constructor":{"constructorId":"williams","url":"http:\/\/en.wikipedia.org\/wiki\/Williams_Grand_Prix_Engineering","name":"Williams","nationality":"British"},"grid":"19","laps":"49","status":"+1 Lap","FastestLap":{"rank":"15","lap":"49","Time":{"time":"1:33.026"},"AverageSpeed":{"units":"kph","speed":"238.926"}}},{"number":"3","position":"16","positionText":"16","points":"0","Driver":{"driverId":"ricciardo","permanentNumber":"3","code":"RIC","url":"http:\/\/en.wikipedia.org\/wiki\/Daniel_Ricciardo","givenName":"Daniel","familyName":"Ricciardo","dateOfBirth":"1989-07-01","nationality":"Australian"},"Constructor":{"constructorId":"rb","url":"http:\/\/en.wikipedia.org\/wiki\/RB_Formula_One_Team","name":"RB F1 Team","nationality":"Italian"},"grid":"14","laps":"49","status":"+1 Lap","FastestLap":{"rank":"16","lap":"47","Time":{"time":"1:33.323"},"AverageSpeed":{"units":"kph","speed":"238.166"}}},{"number":"77","position":"17","positionText":"17","points":"0","Driver":{"driverId":"bottas","permanentNumber":"77","code":"BOT","url":"http:\/\/en.wikipedia.org\/wiki\/Valtteri_Bottas","givenName":"Valtteri","familyName":"Bottas","dateOfBirth":"1989-08-28","nationality":"Finnish"},"Constructor":{"constructorId":"sauber","url":"http:\/\/en.wikipedia.org\/wiki\/Sauber","name":"Sauber","nationality":"Swiss"},"grid":"16","laps":"49","status":"+1 Lap","FastestLap":{"rank":"14","lap":"49","Time":{"time":"1:32.706"},"AverageSpeed":{"units":"kph","speed":"239.751"}}},{"number":"24","position":"18","positionText":"18","points":"0","Driver":{"driverId":"zhou","permanentNumber":"24","code":"ZHO","url":"http:\/\/en.wikipedia.org\/wiki\/Zhou_Guanyu","givenName":"Guanyu","familyName":"Zhou","dateOfBirth":"1999-05-30","nationality":"Chinese"},"Constructor":{"constructorId":"sauber","url":"http:\/\/en.wikipedia.org\/wiki\/Sauber","name":"Sauber","nationality":"Swiss"},"grid":"20","laps":"49","status":"+1 Lap","FastestLap":{"rank":"6","lap":"49","Time":{"time":"1:32.208"},"AverageSpeed":{"units":"kph","speed":"241.046"}}},{"number":"18","position":"19","positionText":"R","points":"0","Driver":{"driverId":"stroll","permanentNumber":"18","code":"STR","url":"http:\/\/en.wikipedia.org\/wiki\/Lance_Stroll","givenName":"Lance","familyName":"Stroll","dateOfBirth":"1998-10-29","nationality":"Canadian"},"Constructor":{"constructorId":"aston_martin","url":"http:\/\/en.wikipedia.org\/wiki\/Aston_Martin_in_Formula_One","name":"Aston Martin","nationality":"British"},"grid":"10","laps":"5","status":"Accident","FastestLap":{"rank":"19","lap":"5","Time":{"time":"1:35.560"},"AverageSpeed":{"units":"kph","speed":"232.591"}}},{"number":"10","position":"20","positionText":"R","points":"0","Driver":{"driverId":"gasly","permanentNumber":"10","code":"GAS","url":"http:\/\/en.wikipedia.org\/wiki\/Pierre_Gasly","givenName":"Pierre","familyName":"Gasly","dateOfBirth":"1996-02-07","nationality":"French"},"Constructor":{"constructorId":"alpine","url":"http:\/\/en.wikipedia.org\/wiki\/Alpine_F1_Team","name":"Alpine F1 Team","nationality":"French"},"grid":"18","laps":"1","status":"Gearbox"}]}]}}};
+const allResults: AllResults = {
+  "data": [
+    {
+      "race_id": 1132,
+      "race_name": "Miami Grand Prix",
+      "venue_name": "Miami International Autodrome",
+      "match_date": "2025-05-05",
+      "start_date": "2025-05-02T16:30:00Z",
+      "end_date": "2025-05-04T22:00:00Z",
+      "country": "USA",
+      "country_code": "USA",
+      "sessions": [
+        "Practice 1",
+        "Sprint Shootout 1",
+        "Sprint Shootout 2",
+        "Sprint Shootout 3",
+        "Sprint Grid",
+        "Sprint",
+        "Qualifying 1",
+        "Qualifying 2",
+        "Qualifying 3",
+        "Grid",
+        "Race",
+        "FastestLap"
+      ],
+      "results": [
+        {
+          "gap": "1:28:51.587",
+          "pos": "1",
+          "laps": "57",
+          "name": "Oscar Piastri",
+          "pits": "1",
+          "team": "McLaren",
+          "time": "1:28:51.587",
+          "point": 25,
+          "country": "Australia",
+          "team_slug": "mclaren",
+          "driver_slug": "oscar-piastri"
+        },
+        {
+          "gap": "4.630",
+          "pos": "2",
+          "laps": "57",
+          "name": "Lando Norris",
+          "pits": "1",
+          "team": "McLaren",
+          "time": "+4.630s",
+          "point": 18,
+          "country": "Great Britain",
+          "team_slug": "mclaren",
+          "driver_slug": "lando-norris"
+        },
+        {
+          "gap": "37.644",
+          "pos": "3",
+          "laps": "57",
+          "name": "George Russell",
+          "pits": "1",
+          "team": "Mercedes",
+          "time": "+37.644s",
+          "point": 15,
+          "country": "Great Britain",
+          "team_slug": "mercedes",
+          "driver_slug": "george-russell"
+        },
+        {
+          "gap": "39.956",
+          "pos": "4",
+          "laps": "57",
+          "name": "Max Verstappen",
+          "pits": "1",
+          "team": "Red Bull",
+          "time": "+39.956s",
+          "point": 12,
+          "country": "Netherlands",
+          "team_slug": "red-bull",
+          "driver_slug": "max-verstappen"
+        },
+        {
+          "gap": "48.067",
+          "pos": "5",
+          "laps": "57",
+          "name": "Alexander Albon",
+          "pits": "1",
+          "team": "Williams",
+          "time": "+48.067s",
+          "point": 10,
+          "country": "Thailand",
+          "team_slug": "williams",
+          "driver_slug": "alex-albon"
+        },
+        {
+          "gap": "55.502",
+          "pos": "6",
+          "laps": "57",
+          "name": "Kimi Antonelli",
+          "pits": "1",
+          "team": "Mercedes",
+          "time": "+55.502s",
+          "point": 8,
+          "country": "Italy",
+          "team_slug": "mercedes",
+          "driver_slug": "kimi-antonelli"
+        },
+        {
+          "gap": "57.036",
+          "pos": "7",
+          "laps": "57",
+          "name": "Charles Leclerc",
+          "pits": "1",
+          "team": "Ferrari",
+          "time": "+57.036s",
+          "point": 6,
+          "country": "Monaco",
+          "team_slug": "ferrari",
+          "driver_slug": "charles-leclerc"
+        },
+        {
+          "gap": "60.186",
+          "pos": "8",
+          "laps": "57",
+          "name": "Lewis Hamilton",
+          "pits": "1",
+          "team": "Ferrari",
+          "time": "+60.186s",
+          "point": 4,
+          "country": "Great Britain",
+          "team_slug": "ferrari",
+          "driver_slug": "lewis-hamilton"
+        },
+        {
+          "gap": "60.577",
+          "pos": "9",
+          "laps": "57",
+          "name": "Carlos Sainz",
+          "pits": "1",
+          "team": "Williams",
+          "time": "+60.577s",
+          "point": 2,
+          "country": "Spain",
+          "team_slug": "williams",
+          "driver_slug": "carlos-sainz"
+        },
+        {
+          "gap": "74.434",
+          "pos": "10",
+          "laps": "57",
+          "name": "Yuki Tsunoda",
+          "pits": "1",
+          "team": "Red Bull",
+          "time": "+74.434s",
+          "point": 1,
+          "country": "Japan",
+          "team_slug": "red-bull",
+          "driver_slug": "yuki-tsunoda"
+        },
+        {
+          "gap": "74.602",
+          "pos": "11",
+          "laps": "57",
+          "name": "Isack Hadjar",
+          "pits": "1",
+          "team": "Racing Bulls",
+          "time": "+74.602s",
+          "point": 0,
+          "country": "France",
+          "team_slug": "racing-bulls",
+          "driver_slug": "isack-hadjar"
+        },
+        {
+          "gap": "82.006",
+          "pos": "12",
+          "laps": "57",
+          "name": "Esteban Ocon",
+          "pits": "1",
+          "team": "Haas",
+          "time": "+82.006s",
+          "point": 0,
+          "country": "France",
+          "team_slug": "haas",
+          "driver_slug": "esteban-ocon"
+        },
+        {
+          "gap": "90.445",
+          "pos": "13",
+          "laps": "57",
+          "name": "Pierre Gasly",
+          "pits": "1",
+          "team": "Alpine",
+          "time": "+90.445s",
+          "point": 0,
+          "country": "France",
+          "team_slug": "alpine",
+          "driver_slug": "pierre-gasly"
+        },
+        {
+          "gap": "1 LAP",
+          "pos": "14",
+          "laps": "56",
+          "name": "Nico Hulkenberg",
+          "pits": "1",
+          "team": "Kick Sauber",
+          "time": "1 LAP",
+          "point": 0,
+          "country": "Germany",
+          "team_slug": "kick-sauber",
+          "driver_slug": "nico-hulkenberg"
+        },
+        {
+          "gap": "1 LAP",
+          "pos": "15",
+          "laps": "56",
+          "name": "Fernando Alonso",
+          "pits": "1",
+          "team": "Aston Martin",
+          "time": "1 LAP",
+          "point": 0,
+          "country": "Spain",
+          "team_slug": "aston-martin",
+          "driver_slug": "fernando-alonso"
+        },
+        {
+          "gap": "1 LAP",
+          "pos": "16",
+          "laps": "56",
+          "name": "Lance Stroll",
+          "pits": "1",
+          "team": "Aston Martin",
+          "time": "1 LAP",
+          "point": 0,
+          "country": "Canada",
+          "team_slug": "aston-martin",
+          "driver_slug": "lance-stroll"
+        },
+        {
+          "gap": "21 LAPS",
+          "pos": "R",
+          "laps": "36",
+          "name": "Liam Lawson",
+          "pits": "2",
+          "team": "Racing Bulls",
+          "time": "21 LAPS",
+          "point": 0,
+          "country": "New Zealand",
+          "team_slug": "racing-bulls",
+          "driver_slug": "liam-lawson"
+        },
+        {
+          "gap": "27 LAPS",
+          "pos": "R",
+          "laps": "30",
+          "name": "Gabriel Bortoleto",
+          "pits": "1",
+          "team": "Kick Sauber",
+          "time": "27 LAPS",
+          "point": 0,
+          "country": "Brazil",
+          "team_slug": "kick-sauber",
+          "driver_slug": "gabriel-bortoleto"
+        },
+        {
+          "gap": "30 LAPS",
+          "pos": "R",
+          "laps": "27",
+          "name": "Oliver Bearman",
+          "pits": "0",
+          "team": "Haas",
+          "time": "30 LAPS",
+          "point": 0,
+          "country": "Great Britain",
+          "team_slug": "haas",
+          "driver_slug": "oliver-bearman"
+        },
+        {
+          "gap": "",
+          "pos": "R",
+          "laps": "0",
+          "name": "Jack Doohan",
+          "pits": "0",
+          "team": "Alpine",
+          "time": "",
+          "point": 0,
+          "country": "Australia",
+          "team_slug": "alpine",
+          "driver_slug": "jack-doohan"
+        }
+      ]
+    },
+    {
+      "race_id": 1131,
+      "race_name": "Saudi Arabian Grand Prix",
+      "venue_name": "Jeddah",
+      "match_date": "2025-04-20",
+      "start_date": "2025-04-18T13:30:00Z",
+      "end_date": "2025-04-20T19:00:00Z",
+      "country": "Saudi Arabia",
+      "country_code": "SAU",
+      "sessions": [
+        "Practice 1",
+        "Practice 2",
+        "Practice 3",
+        "Qualifying 1",
+        "Qualifying 2",
+        "Qualifying 3",
+        "Grid",
+        "Race",
+        "FastestLap"
+      ],
+      "results": [
+        {
+          "gap": "1:21:06.758",
+          "pos": "1",
+          "laps": "50",
+          "name": "Oscar Piastri",
+          "pits": "1",
+          "team": "McLaren",
+          "time": "1:21:06.758",
+          "point": 25,
+          "country": "Australia",
+          "team_slug": "mclaren",
+          "driver_slug": "oscar-piastri"
+        },
+        {
+          "gap": "2.843",
+          "pos": "2",
+          "laps": "50",
+          "name": "Max Verstappen",
+          "pits": "1",
+          "team": "Red Bull",
+          "time": "+2.843s",
+          "point": 18,
+          "country": "Netherlands",
+          "team_slug": "red-bull",
+          "driver_slug": "max-verstappen"
+        },
+        {
+          "gap": "8.104",
+          "pos": "3",
+          "laps": "50",
+          "name": "Charles Leclerc",
+          "pits": "1",
+          "team": "Ferrari",
+          "time": "+8.104s",
+          "point": 15,
+          "country": "Monaco",
+          "team_slug": "ferrari",
+          "driver_slug": "charles-leclerc"
+        },
+        {
+          "gap": "9.196",
+          "pos": "4",
+          "laps": "50",
+          "name": "Lando Norris",
+          "pits": "1",
+          "team": "McLaren",
+          "time": "+9.196s",
+          "point": 12,
+          "country": "Great Britain",
+          "team_slug": "mclaren",
+          "driver_slug": "lando-norris"
+        },
+        {
+          "gap": "27.236",
+          "pos": "5",
+          "laps": "50",
+          "name": "George Russell",
+          "pits": "1",
+          "team": "Mercedes",
+          "time": "+27.236s",
+          "point": 10,
+          "country": "Great Britain",
+          "team_slug": "mercedes",
+          "driver_slug": "george-russell"
+        },
+        {
+          "gap": "34.688",
+          "pos": "6",
+          "laps": "50",
+          "name": "Kimi Antonelli",
+          "pits": "1",
+          "team": "Mercedes",
+          "time": "+34.688s",
+          "point": 8,
+          "country": "Italy",
+          "team_slug": "mercedes",
+          "driver_slug": "kimi-antonelli"
+        },
+        {
+          "gap": "39.073",
+          "pos": "7",
+          "laps": "50",
+          "name": "Lewis Hamilton",
+          "pits": "1",
+          "team": "Ferrari",
+          "time": "+39.073s",
+          "point": 6,
+          "country": "Great Britain",
+          "team_slug": "ferrari",
+          "driver_slug": "lewis-hamilton"
+        },
+        {
+          "gap": "64.630",
+          "pos": "8",
+          "laps": "50",
+          "name": "Carlos Sainz",
+          "pits": "1",
+          "team": "Williams",
+          "time": "+64.630s",
+          "point": 4,
+          "country": "Spain",
+          "team_slug": "williams",
+          "driver_slug": "carlos-sainz"
+        },
+        {
+          "gap": "66.515",
+          "pos": "9",
+          "laps": "50",
+          "name": "Alexander Albon",
+          "pits": "1",
+          "team": "Williams",
+          "time": "+66.515s",
+          "point": 2,
+          "country": "Thailand",
+          "team_slug": "williams",
+          "driver_slug": "alex-albon"
+        },
+        {
+          "gap": "67.091",
+          "pos": "10",
+          "laps": "50",
+          "name": "Isack Hadjar",
+          "pits": "1",
+          "team": "Racing Bulls",
+          "time": "+67.091s",
+          "point": 1,
+          "country": "France",
+          "team_slug": "racing-bulls",
+          "driver_slug": "isack-hadjar"
+        },
+        {
+          "gap": "75.917",
+          "pos": "11",
+          "laps": "50",
+          "name": "Fernando Alonso",
+          "pits": "1",
+          "team": "Aston Martin",
+          "time": "+75.917s",
+          "point": 0,
+          "country": "Spain",
+          "team_slug": "aston-martin",
+          "driver_slug": "fernando-alonso"
+        },
+        {
+          "gap": "78.451",
+          "pos": "12",
+          "laps": "50",
+          "name": "Liam Lawson",
+          "pits": "1",
+          "team": "Racing Bulls",
+          "time": "+78.451s",
+          "point": 0,
+          "country": "New Zealand",
+          "team_slug": "racing-bulls",
+          "driver_slug": "liam-lawson"
+        },
+        {
+          "gap": "79.194",
+          "pos": "13",
+          "laps": "50",
+          "name": "Oliver Bearman",
+          "pits": "1",
+          "team": "Haas",
+          "time": "+79.194s",
+          "point": 0,
+          "country": "Great Britain",
+          "team_slug": "haas",
+          "driver_slug": "oliver-bearman"
+        },
+        {
+          "gap": "99.723",
+          "pos": "14",
+          "laps": "50",
+          "name": "Esteban Ocon",
+          "pits": "1",
+          "team": "Haas",
+          "time": "+99.723s",
+          "point": 0,
+          "country": "France",
+          "team_slug": "haas",
+          "driver_slug": "esteban-ocon"
+        },
+        {
+          "gap": "1 LAP",
+          "pos": "15",
+          "laps": "49",
+          "name": "Nico Hulkenberg",
+          "pits": "1",
+          "team": "Kick Sauber",
+          "time": "1 LAP",
+          "point": 0,
+          "country": "Germany",
+          "team_slug": "kick-sauber",
+          "driver_slug": "nico-hulkenberg"
+        },
+        {
+          "gap": "1 LAP",
+          "pos": "16",
+          "laps": "49",
+          "name": "Lance Stroll",
+          "pits": "1",
+          "team": "Aston Martin",
+          "time": "1 LAP",
+          "point": 0,
+          "country": "Canada",
+          "team_slug": "aston-martin",
+          "driver_slug": "lance-stroll"
+        },
+        {
+          "gap": "1 LAP",
+          "pos": "17",
+          "laps": "49",
+          "name": "Jack Doohan",
+          "pits": "2",
+          "team": "Alpine",
+          "time": "1 LAP",
+          "point": 0,
+          "country": "Australia",
+          "team_slug": "alpine",
+          "driver_slug": "jack-doohan"
+        },
+        {
+          "gap": "1 LAP",
+          "pos": "18",
+          "laps": "49",
+          "name": "Gabriel Bortoleto",
+          "pits": "1",
+          "team": "Kick Sauber",
+          "time": "1 LAP",
+          "point": 0,
+          "country": "Brazil",
+          "team_slug": "kick-sauber",
+          "driver_slug": "gabriel-bortoleto"
+        },
+        {
+          "gap": "49 LAPS",
+          "pos": "R",
+          "laps": "1",
+          "name": "Yuki Tsunoda",
+          "pits": "1",
+          "team": "Red Bull",
+          "time": "49 LAPS",
+          "point": 0,
+          "country": "Japan",
+          "team_slug": "red-bull",
+          "driver_slug": "yuki-tsunoda"
+        },
+        {
+          "gap": "50 LAPS",
+          "pos": "R",
+          "laps": "0",
+          "name": "Pierre Gasly",
+          "pits": "0",
+          "team": "Alpine",
+          "time": "50 LAPS",
+          "point": 0,
+          "country": "France",
+          "team_slug": "alpine",
+          "driver_slug": "pierre-gasly"
+        }
+      ]
+    },
+    {
+      "race_id": 1130,
+      "race_name": "Bahrain Grand Prix",
+      "venue_name": "Bahrain International",
+      "match_date": "2025-04-13",
+      "start_date": "2025-04-11T11:30:00Z",
+      "end_date": "2025-04-13T17:00:00Z",
+      "country": "Bahrain",
+      "country_code": "BHR",
+      "sessions": [
+        "Practice 1",
+        "Practice 2",
+        "Practice 3",
+        "Qualifying 1",
+        "Qualifying 2",
+        "Qualifying 3",
+        "Grid",
+        "Race",
+        "FastestLap"
+      ],
+      "results": [
+        {
+          "gap": "1:35:39.435",
+          "pos": "1",
+          "laps": "57",
+          "name": "Oscar Piastri",
+          "pits": "2",
+          "team": "McLaren",
+          "time": "1:35:39.435",
+          "point": 25,
+          "country": "Australia",
+          "team_slug": "mclaren",
+          "driver_slug": "oscar-piastri"
+        },
+        {
+          "gap": "15.499",
+          "pos": "2",
+          "laps": "57",
+          "name": "George Russell",
+          "pits": "2",
+          "team": "Mercedes",
+          "time": "+15.499s",
+          "point": 18,
+          "country": "Great Britain",
+          "team_slug": "mercedes",
+          "driver_slug": "george-russell"
+        },
+        {
+          "gap": "16.273",
+          "pos": "3",
+          "laps": "57",
+          "name": "Lando Norris",
+          "pits": "2",
+          "team": "McLaren",
+          "time": "+16.273s",
+          "point": 15,
+          "country": "Great Britain",
+          "team_slug": "mclaren",
+          "driver_slug": "lando-norris"
+        },
+        {
+          "gap": "19.679",
+          "pos": "4",
+          "laps": "57",
+          "name": "Charles Leclerc",
+          "pits": "2",
+          "team": "Ferrari",
+          "time": "+19.679s",
+          "point": 12,
+          "country": "Monaco",
+          "team_slug": "ferrari",
+          "driver_slug": "charles-leclerc"
+        },
+        {
+          "gap": "27.993",
+          "pos": "5",
+          "laps": "57",
+          "name": "Lewis Hamilton",
+          "pits": "2",
+          "team": "Ferrari",
+          "time": "+27.993s",
+          "point": 10,
+          "country": "Great Britain",
+          "team_slug": "ferrari",
+          "driver_slug": "lewis-hamilton"
+        },
+        {
+          "gap": "34.395",
+          "pos": "6",
+          "laps": "57",
+          "name": "Max Verstappen",
+          "pits": "2",
+          "team": "Red Bull",
+          "time": "+34.395s",
+          "point": 8,
+          "country": "Netherlands",
+          "team_slug": "red-bull",
+          "driver_slug": "max-verstappen"
+        },
+        {
+          "gap": "36.002",
+          "pos": "7",
+          "laps": "57",
+          "name": "Pierre Gasly",
+          "pits": "2",
+          "team": "Alpine",
+          "time": "+36.002s",
+          "point": 6,
+          "country": "France",
+          "team_slug": "alpine",
+          "driver_slug": "pierre-gasly"
+        },
+        {
+          "gap": "44.244",
+          "pos": "8",
+          "laps": "57",
+          "name": "Esteban Ocon",
+          "pits": "2",
+          "team": "Haas",
+          "time": "+44.244s",
+          "point": 4,
+          "country": "France",
+          "team_slug": "haas",
+          "driver_slug": "esteban-ocon"
+        },
+        {
+          "gap": "45.061",
+          "pos": "9",
+          "laps": "57",
+          "name": "Yuki Tsunoda",
+          "pits": "2",
+          "team": "Red Bull",
+          "time": "+45.061s",
+          "point": 2,
+          "country": "Japan",
+          "team_slug": "red-bull",
+          "driver_slug": "yuki-tsunoda"
+        },
+        {
+          "gap": "47.594",
+          "pos": "10",
+          "laps": "57",
+          "name": "Oliver Bearman",
+          "pits": "2",
+          "team": "Haas",
+          "time": "+47.594s",
+          "point": 1,
+          "country": "Great Britain",
+          "team_slug": "haas",
+          "driver_slug": "oliver-bearman"
+        },
+        {
+          "gap": "48.016",
+          "pos": "11",
+          "laps": "57",
+          "name": "Kimi Antonelli",
+          "pits": "3",
+          "team": "Mercedes",
+          "time": "+48.016s",
+          "point": 0,
+          "country": "Italy",
+          "team_slug": "mercedes",
+          "driver_slug": "kimi-antonelli"
+        },
+        {
+          "gap": "48.839",
+          "pos": "12",
+          "laps": "57",
+          "name": "Alexander Albon",
+          "pits": "2",
+          "team": "Williams",
+          "time": "+48.839s",
+          "point": 0,
+          "country": "Thailand",
+          "team_slug": "williams",
+          "driver_slug": "alex-albon"
+        },
+        {
+          "gap": "56.314",
+          "pos": "13",
+          "laps": "57",
+          "name": "Isack Hadjar",
+          "pits": "2",
+          "team": "Racing Bulls",
+          "time": "+56.314s",
+          "point": 0,
+          "country": "France",
+          "team_slug": "racing-bulls",
+          "driver_slug": "isack-hadjar"
+        },
+        {
+          "gap": "57.806",
+          "pos": "14",
+          "laps": "57",
+          "name": "Jack Doohan",
+          "pits": "2",
+          "team": "Alpine",
+          "time": "+57.806s",
+          "point": 0,
+          "country": "Australia",
+          "team_slug": "alpine",
+          "driver_slug": "jack-doohan"
+        },
+        {
+          "gap": "60.340",
+          "pos": "15",
+          "laps": "57",
+          "name": "Fernando Alonso",
+          "pits": "2",
+          "team": "Aston Martin",
+          "time": "+60.340s",
+          "point": 0,
+          "country": "Spain",
+          "team_slug": "aston-martin",
+          "driver_slug": "fernando-alonso"
+        },
+        {
+          "gap": "64.435",
+          "pos": "16",
+          "laps": "57",
+          "name": "Liam Lawson",
+          "pits": "2",
+          "team": "Racing Bulls",
+          "time": "+64.435s",
+          "point": 0,
+          "country": "New Zealand",
+          "team_slug": "racing-bulls",
+          "driver_slug": "liam-lawson"
+        },
+        {
+          "gap": "65.489",
+          "pos": "17",
+          "laps": "57",
+          "name": "Lance Stroll",
+          "pits": "2",
+          "team": "Aston Martin",
+          "time": "+65.489s",
+          "point": 0,
+          "country": "Canada",
+          "team_slug": "aston-martin",
+          "driver_slug": "lance-stroll"
+        },
+        {
+          "gap": "66.872",
+          "pos": "18",
+          "laps": "57",
+          "name": "Gabriel Bortoleto",
+          "pits": "2",
+          "team": "Kick Sauber",
+          "time": "+66.872s",
+          "point": 0,
+          "country": "Brazil",
+          "team_slug": "kick-sauber",
+          "driver_slug": "gabriel-bortoleto"
+        },
+        {
+          "gap": "12 LAPS",
+          "pos": "R",
+          "laps": "45",
+          "name": "Carlos Sainz",
+          "pits": "4",
+          "team": "Williams",
+          "time": "12 LAPS",
+          "point": 0,
+          "country": "Spain",
+          "team_slug": "williams",
+          "driver_slug": "carlos-sainz"
+        },
+        {
+          "gap": "53.472",
+          "pos": "DSQ",
+          "laps": "57",
+          "name": "Nico Hulkenberg",
+          "pits": "2",
+          "team": "Kick Sauber",
+          "time": "+53.472s",
+          "point": 0,
+          "country": "Germany",
+          "team_slug": "kick-sauber",
+          "driver_slug": "nico-hulkenberg"
+        }
+      ]
+    },
+    {
+      "race_id": 1129,
+      "race_name": "Japanese Grand Prix",
+      "venue_name": "Suzuka",
+      "match_date": "2025-04-06",
+      "start_date": "2025-04-04T02:30:00Z",
+      "end_date": "2025-04-06T07:00:00Z",
+      "country": "Japan",
+      "country_code": "JPN",
+      "sessions": [
+        "Practice 1",
+        "Practice 2",
+        "Practice 3",
+        "Qualifying 1",
+        "Qualifying 2",
+        "Qualifying 3",
+        "Grid",
+        "Race",
+        "FastestLap"
+      ],
+      "results": [
+        {
+          "gap": "1:22:06.983",
+          "pos": "1",
+          "laps": "53",
+          "name": "Max Verstappen",
+          "pits": "1",
+          "team": "Red Bull",
+          "time": "1:22:06.983",
+          "point": 25,
+          "country": "Netherlands",
+          "team_slug": "red-bull",
+          "driver_slug": "max-verstappen"
+        },
+        {
+          "gap": "1.423",
+          "pos": "2",
+          "laps": "53",
+          "name": "Lando Norris",
+          "pits": "1",
+          "team": "McLaren",
+          "time": "+1.423s",
+          "point": 18,
+          "country": "Great Britain",
+          "team_slug": "mclaren",
+          "driver_slug": "lando-norris"
+        },
+        {
+          "gap": "2.129",
+          "pos": "3",
+          "laps": "53",
+          "name": "Oscar Piastri",
+          "pits": "1",
+          "team": "McLaren",
+          "time": "+2.129s",
+          "point": 15,
+          "country": "Australia",
+          "team_slug": "mclaren",
+          "driver_slug": "oscar-piastri"
+        },
+        {
+          "gap": "16.097",
+          "pos": "4",
+          "laps": "53",
+          "name": "Charles Leclerc",
+          "pits": "1",
+          "team": "Ferrari",
+          "time": "+16.097s",
+          "point": 12,
+          "country": "Monaco",
+          "team_slug": "ferrari",
+          "driver_slug": "charles-leclerc"
+        },
+        {
+          "gap": "17.362",
+          "pos": "5",
+          "laps": "53",
+          "name": "George Russell",
+          "pits": "1",
+          "team": "Mercedes",
+          "time": "+17.362s",
+          "point": 10,
+          "country": "Great Britain",
+          "team_slug": "mercedes",
+          "driver_slug": "george-russell"
+        },
+        {
+          "gap": "18.671",
+          "pos": "6",
+          "laps": "53",
+          "name": "Kimi Antonelli",
+          "pits": "1",
+          "team": "Mercedes",
+          "time": "+18.671s",
+          "point": 8,
+          "country": "Italy",
+          "team_slug": "mercedes",
+          "driver_slug": "kimi-antonelli"
+        },
+        {
+          "gap": "29.182",
+          "pos": "7",
+          "laps": "53",
+          "name": "Lewis Hamilton",
+          "pits": "1",
+          "team": "Ferrari",
+          "time": "+29.182s",
+          "point": 6,
+          "country": "Great Britain",
+          "team_slug": "ferrari",
+          "driver_slug": "lewis-hamilton"
+        },
+        {
+          "gap": "37.134",
+          "pos": "8",
+          "laps": "53",
+          "name": "Isack Hadjar",
+          "pits": "1",
+          "team": "Racing Bulls",
+          "time": "+37.134s",
+          "point": 4,
+          "country": "France",
+          "team_slug": "racing-bulls",
+          "driver_slug": "isack-hadjar"
+        },
+        {
+          "gap": "40.367",
+          "pos": "9",
+          "laps": "53",
+          "name": "Alexander Albon",
+          "pits": "1",
+          "team": "Williams",
+          "time": "+40.367s",
+          "point": 2,
+          "country": "Thailand",
+          "team_slug": "williams",
+          "driver_slug": "alex-albon"
+        },
+        {
+          "gap": "54.529",
+          "pos": "10",
+          "laps": "53",
+          "name": "Oliver Bearman",
+          "pits": "1",
+          "team": "Haas",
+          "time": "+54.529s",
+          "point": 1,
+          "country": "Great Britain",
+          "team_slug": "haas",
+          "driver_slug": "oliver-bearman"
+        },
+        {
+          "gap": "57.333",
+          "pos": "11",
+          "laps": "53",
+          "name": "Fernando Alonso",
+          "pits": "1",
+          "team": "Aston Martin",
+          "time": "+57.333s",
+          "point": 0,
+          "country": "Spain",
+          "team_slug": "aston-martin",
+          "driver_slug": "fernando-alonso"
+        },
+        {
+          "gap": "58.401",
+          "pos": "12",
+          "laps": "53",
+          "name": "Yuki Tsunoda",
+          "pits": "1",
+          "team": "Red Bull",
+          "time": "+58.401s",
+          "point": 0,
+          "country": "Japan",
+          "team_slug": "red-bull",
+          "driver_slug": "yuki-tsunoda"
+        },
+        {
+          "gap": "62.122",
+          "pos": "13",
+          "laps": "53",
+          "name": "Pierre Gasly",
+          "pits": "1",
+          "team": "Alpine",
+          "time": "+62.122s",
+          "point": 0,
+          "country": "France",
+          "team_slug": "alpine",
+          "driver_slug": "pierre-gasly"
+        },
+        {
+          "gap": "74.129",
+          "pos": "14",
+          "laps": "53",
+          "name": "Carlos Sainz",
+          "pits": "1",
+          "team": "Williams",
+          "time": "+74.129s",
+          "point": 0,
+          "country": "Spain",
+          "team_slug": "williams",
+          "driver_slug": "carlos-sainz"
+        },
+        {
+          "gap": "81.314",
+          "pos": "15",
+          "laps": "53",
+          "name": "Jack Doohan",
+          "pits": "1",
+          "team": "Alpine",
+          "time": "+81.314s",
+          "point": 0,
+          "country": "Australia",
+          "team_slug": "alpine",
+          "driver_slug": "jack-doohan"
+        },
+        {
+          "gap": "81.957",
+          "pos": "16",
+          "laps": "53",
+          "name": "Nico Hulkenberg",
+          "pits": "1",
+          "team": "Kick Sauber",
+          "time": "+81.957s",
+          "point": 0,
+          "country": "Germany",
+          "team_slug": "kick-sauber",
+          "driver_slug": "nico-hulkenberg"
+        },
+        {
+          "gap": "82.734",
+          "pos": "17",
+          "laps": "53",
+          "name": "Liam Lawson",
+          "pits": "1",
+          "team": "Racing Bulls",
+          "time": "+82.734s",
+          "point": 0,
+          "country": "New Zealand",
+          "team_slug": "racing-bulls",
+          "driver_slug": "liam-lawson"
+        },
+        {
+          "gap": "83.438",
+          "pos": "18",
+          "laps": "53",
+          "name": "Esteban Ocon",
+          "pits": "1",
+          "team": "Haas",
+          "time": "+83.438s",
+          "point": 0,
+          "country": "France",
+          "team_slug": "haas",
+          "driver_slug": "esteban-ocon"
+        },
+        {
+          "gap": "83.897",
+          "pos": "19",
+          "laps": "53",
+          "name": "Gabriel Bortoleto",
+          "pits": "1",
+          "team": "Kick Sauber",
+          "time": "+83.897s",
+          "point": 0,
+          "country": "Brazil",
+          "team_slug": "kick-sauber",
+          "driver_slug": "gabriel-bortoleto"
+        },
+        {
+          "gap": "1 LAP",
+          "pos": "20",
+          "laps": "52",
+          "name": "Lance Stroll",
+          "pits": "2",
+          "team": "Aston Martin",
+          "time": "1 LAP",
+          "point": 0,
+          "country": "Canada",
+          "team_slug": "aston-martin",
+          "driver_slug": "lance-stroll"
+        }
+      ]
+    },
+    {
+      "race_id": 1128,
+      "race_name": "Chinese Grand Prix",
+      "venue_name": "Shanghai International",
+      "match_date": "2025-03-23",
+      "start_date": "2025-03-21T03:30:00Z",
+      "end_date": "2025-03-23T09:00:00Z",
+      "country": "China",
+      "country_code": "CHN",
+      "sessions": [
+        "Practice 1",
+        "Sprint Shootout 1",
+        "Sprint Shootout 2",
+        "Sprint Shootout 3",
+        "Sprint Grid",
+        "Sprint",
+        "Qualifying 1",
+        "Qualifying 2",
+        "Qualifying 3",
+        "Grid",
+        "Race",
+        "FastestLap"
+      ],
+      "results": [
+        {
+          "gap": "1:30:55.026",
+          "pos": "1",
+          "laps": "56",
+          "name": "Oscar Piastri",
+          "pits": "1",
+          "team": "McLaren",
+          "time": "1:30:55.026",
+          "point": 25,
+          "country": "Australia",
+          "team_slug": "mclaren",
+          "driver_slug": "oscar-piastri"
+        },
+        {
+          "gap": "9.748",
+          "pos": "2",
+          "laps": "56",
+          "name": "Lando Norris",
+          "pits": "1",
+          "team": "McLaren",
+          "time": "+9.748s",
+          "point": 18,
+          "country": "Great Britain",
+          "team_slug": "mclaren",
+          "driver_slug": "lando-norris"
+        },
+        {
+          "gap": "11.097",
+          "pos": "3",
+          "laps": "56",
+          "name": "George Russell",
+          "pits": "1",
+          "team": "Mercedes",
+          "time": "+11.097s",
+          "point": 15,
+          "country": "Great Britain",
+          "team_slug": "mercedes",
+          "driver_slug": "george-russell"
+        },
+        {
+          "gap": "16.656",
+          "pos": "4",
+          "laps": "56",
+          "name": "Max Verstappen",
+          "pits": "1",
+          "team": "Red Bull",
+          "time": "+16.656s",
+          "point": 12,
+          "country": "Netherlands",
+          "team_slug": "red-bull",
+          "driver_slug": "max-verstappen"
+        },
+        {
+          "gap": "49.969",
+          "pos": "5",
+          "laps": "56",
+          "name": "Esteban Ocon",
+          "pits": "1",
+          "team": "Haas",
+          "time": "+49.969s",
+          "point": 10,
+          "country": "France",
+          "team_slug": "haas",
+          "driver_slug": "esteban-ocon"
+        },
+        {
+          "gap": "53.748",
+          "pos": "6",
+          "laps": "56",
+          "name": "Kimi Antonelli",
+          "pits": "1",
+          "team": "Mercedes",
+          "time": "+53.748s",
+          "point": 8,
+          "country": "Italy",
+          "team_slug": "mercedes",
+          "driver_slug": "kimi-antonelli"
+        },
+        {
+          "gap": "56.321",
+          "pos": "7",
+          "laps": "56",
+          "name": "Alexander Albon",
+          "pits": "1",
+          "team": "Williams",
+          "time": "+56.321s",
+          "point": 6,
+          "country": "Thailand",
+          "team_slug": "williams",
+          "driver_slug": "alex-albon"
+        },
+        {
+          "gap": "61.303",
+          "pos": "8",
+          "laps": "56",
+          "name": "Oliver Bearman",
+          "pits": "1",
+          "team": "Haas",
+          "time": "+61.303s",
+          "point": 4,
+          "country": "Great Britain",
+          "team_slug": "haas",
+          "driver_slug": "oliver-bearman"
+        },
+        {
+          "gap": "70.204",
+          "pos": "9",
+          "laps": "56",
+          "name": "Lance Stroll",
+          "pits": "1",
+          "team": "Aston Martin",
+          "time": "+70.204s",
+          "point": 2,
+          "country": "Canada",
+          "team_slug": "aston-martin",
+          "driver_slug": "lance-stroll"
+        },
+        {
+          "gap": "76.387",
+          "pos": "10",
+          "laps": "56",
+          "name": "Carlos Sainz",
+          "pits": "1",
+          "team": "Williams",
+          "time": "+76.387s",
+          "point": 1,
+          "country": "Spain",
+          "team_slug": "williams",
+          "driver_slug": "carlos-sainz"
+        },
+        {
+          "gap": "78.875",
+          "pos": "11",
+          "laps": "56",
+          "name": "Isack Hadjar",
+          "pits": "2",
+          "team": "Racing Bulls",
+          "time": "+78.875s",
+          "point": 0,
+          "country": "France",
+          "team_slug": "racing-bulls",
+          "driver_slug": "isack-hadjar"
+        },
+        {
+          "gap": "81.147",
+          "pos": "16",
+          "laps": "56",
+          "name": "Liam Lawson",
+          "pits": "2",
+          "team": "Red Bull",
+          "time": "+81.147s",
+          "point": 0,
+          "country": "New Zealand",
+          "team_slug": "red-bull",
+          "driver_slug": "liam-lawson"
+        },
+        {
+          "gap": "88.401",
+          "pos": "13",
+          "laps": "56",
+          "name": "Jack Doohan",
+          "pits": "1",
+          "team": "Alpine",
+          "time": "+88.401s",
+          "point": 0,
+          "country": "Australia",
+          "team_slug": "alpine",
+          "driver_slug": "jack-doohan"
+        },
+        {
+          "gap": "1 LAP",
+          "pos": "14",
+          "laps": "55",
+          "name": "Gabriel Bortoleto",
+          "pits": "2",
+          "team": "Kick Sauber",
+          "time": "1 LAP",
+          "point": 0,
+          "country": "Brazil",
+          "team_slug": "kick-sauber",
+          "driver_slug": "gabriel-bortoleto"
+        },
+        {
+          "gap": "1 LAP",
+          "pos": "15",
+          "laps": "55",
+          "name": "Nico Hulkenberg",
+          "pits": "1",
+          "team": "Kick Sauber",
+          "time": "1 LAP",
+          "point": 0,
+          "country": "Germany",
+          "team_slug": "kick-sauber",
+          "driver_slug": "nico-hulkenberg"
+        },
+        {
+          "gap": "1 LAP",
+          "pos": "12",
+          "laps": "55",
+          "name": "Yuki Tsunoda",
+          "pits": "3",
+          "team": "Racing Bulls",
+          "time": "1 LAP",
+          "point": 0,
+          "country": "Japan",
+          "team_slug": "racing-bulls",
+          "driver_slug": "yuki-tsunoda"
+        },
+        {
+          "gap": "52 LAPS",
+          "pos": "R",
+          "laps": "4",
+          "name": "Fernando Alonso",
+          "pits": "1",
+          "team": "Aston Martin",
+          "time": "52 LAPS",
+          "point": 0,
+          "country": "Spain",
+          "team_slug": "aston-martin",
+          "driver_slug": "fernando-alonso"
+        },
+        {
+          "gap": "23.211",
+          "pos": "DSQ",
+          "laps": "56",
+          "name": "Charles Leclerc",
+          "pits": "1",
+          "team": "Ferrari",
+          "time": "+23.211s",
+          "point": 0,
+          "country": "Monaco",
+          "team_slug": "ferrari",
+          "driver_slug": "charles-leclerc"
+        },
+        {
+          "gap": "25.381",
+          "pos": "DSQ",
+          "laps": "56",
+          "name": "Lewis Hamilton",
+          "pits": "2",
+          "team": "Ferrari",
+          "time": "+25.381s",
+          "point": 0,
+          "country": "Great Britain",
+          "team_slug": "ferrari",
+          "driver_slug": "lewis-hamilton"
+        },
+        {
+          "gap": "67.195",
+          "pos": "DSQ",
+          "laps": "56",
+          "name": "Pierre Gasly",
+          "pits": "1",
+          "team": "Alpine",
+          "time": "+67.195s",
+          "point": 0,
+          "country": "France",
+          "team_slug": "alpine",
+          "driver_slug": "pierre-gasly"
+        }
+      ]
+    },
+    {
+      "race_id": 1127,
+      "race_name": "Australian Grand Prix",
+      "venue_name": "Albert Park Circuit",
+      "match_date": "2025-03-16",
+      "start_date": "2025-03-14T01:30:00Z",
+      "end_date": "2025-03-16T06:00:00Z",
+      "country": "Australia",
+      "country_code": "AUS",
+      "sessions": [
+        "Practice 1",
+        "Practice 2",
+        "Practice 3",
+        "Qualifying 1",
+        "Qualifying 2",
+        "Qualifying 3",
+        "Grid",
+        "Race",
+        "FastestLap"
+      ],
+      "results": [
+        {
+          "gap": "1:42:06.304",
+          "pos": "1",
+          "laps": "57",
+          "name": "Lando Norris",
+          "pits": "5",
+          "team": "McLaren",
+          "time": "1:42:06.304",
+          "point": 25,
+          "country": "Great Britain",
+          "team_slug": "mclaren",
+          "driver_slug": "lando-norris"
+        },
+        {
+          "gap": "0.895",
+          "pos": "2",
+          "laps": "57",
+          "name": "Max Verstappen",
+          "pits": "5",
+          "team": "Red Bull",
+          "time": "+0.895s",
+          "point": 18,
+          "country": "Netherlands",
+          "team_slug": "red-bull",
+          "driver_slug": "max-verstappen"
+        },
+        {
+          "gap": "8.481",
+          "pos": "3",
+          "laps": "57",
+          "name": "George Russell",
+          "pits": "5",
+          "team": "Mercedes",
+          "time": "+8.481s",
+          "point": 15,
+          "country": "Great Britain",
+          "team_slug": "mercedes",
+          "driver_slug": "george-russell"
+        },
+        {
+          "gap": "10.135",
+          "pos": "4",
+          "laps": "57",
+          "name": "Kimi Antonelli",
+          "pits": "5",
+          "team": "Mercedes",
+          "time": "+10.135s",
+          "point": 12,
+          "country": "Italy",
+          "team_slug": "mercedes",
+          "driver_slug": "kimi-antonelli"
+        },
+        {
+          "gap": "12.773",
+          "pos": "5",
+          "laps": "57",
+          "name": "Alexander Albon",
+          "pits": "5",
+          "team": "Williams",
+          "time": "+12.773s",
+          "point": 10,
+          "country": "Thailand",
+          "team_slug": "williams",
+          "driver_slug": "alex-albon"
+        },
+        {
+          "gap": "17.413",
+          "pos": "6",
+          "laps": "57",
+          "name": "Lance Stroll",
+          "pits": "5",
+          "team": "Aston Martin",
+          "time": "+17.413s",
+          "point": 8,
+          "country": "Canada",
+          "team_slug": "aston-martin",
+          "driver_slug": "lance-stroll"
+        },
+        {
+          "gap": "18.423",
+          "pos": "7",
+          "laps": "57",
+          "name": "Nico Hulkenberg",
+          "pits": "5",
+          "team": "Kick Sauber",
+          "time": "+18.423s",
+          "point": 6,
+          "country": "Germany",
+          "team_slug": "kick-sauber",
+          "driver_slug": "nico-hulkenberg"
+        },
+        {
+          "gap": "19.826",
+          "pos": "8",
+          "laps": "57",
+          "name": "Charles Leclerc",
+          "pits": "5",
+          "team": "Ferrari",
+          "time": "+19.826s",
+          "point": 4,
+          "country": "Monaco",
+          "team_slug": "ferrari",
+          "driver_slug": "charles-leclerc"
+        },
+        {
+          "gap": "20.448",
+          "pos": "9",
+          "laps": "57",
+          "name": "Oscar Piastri",
+          "pits": "5",
+          "team": "McLaren",
+          "time": "+20.448s",
+          "point": 2,
+          "country": "Australia",
+          "team_slug": "mclaren",
+          "driver_slug": "oscar-piastri"
+        },
+        {
+          "gap": "22.473",
+          "pos": "10",
+          "laps": "57",
+          "name": "Lewis Hamilton",
+          "pits": "5",
+          "team": "Ferrari",
+          "time": "+22.473s",
+          "point": 1,
+          "country": "Great Britain",
+          "team_slug": "ferrari",
+          "driver_slug": "lewis-hamilton"
+        },
+        {
+          "gap": "26.502",
+          "pos": "11",
+          "laps": "57",
+          "name": "Pierre Gasly",
+          "pits": "5",
+          "team": "Alpine",
+          "time": "+26.502s",
+          "point": 0,
+          "country": "France",
+          "team_slug": "alpine",
+          "driver_slug": "pierre-gasly"
+        },
+        {
+          "gap": "29.884",
+          "pos": "15",
+          "laps": "57",
+          "name": "Yuki Tsunoda",
+          "pits": "5",
+          "team": "Racing Bulls",
+          "time": "+29.884s",
+          "point": 0,
+          "country": "Japan",
+          "team_slug": "racing-bulls",
+          "driver_slug": "yuki-tsunoda"
+        },
+        {
+          "gap": "33.161",
+          "pos": "13",
+          "laps": "57",
+          "name": "Esteban Ocon",
+          "pits": "5",
+          "team": "Haas",
+          "time": "+33.161s",
+          "point": 0,
+          "country": "France",
+          "team_slug": "haas",
+          "driver_slug": "esteban-ocon"
+        },
+        {
+          "gap": "40.351",
+          "pos": "14",
+          "laps": "57",
+          "name": "Oliver Bearman",
+          "pits": "5",
+          "team": "Haas",
+          "time": "+40.351s",
+          "point": 0,
+          "country": "Great Britain",
+          "team_slug": "haas",
+          "driver_slug": "oliver-bearman"
+        },
+        {
+          "gap": "11 LAPS",
+          "pos": "12",
+          "laps": "46",
+          "name": "Liam Lawson",
+          "pits": "4",
+          "team": "Red Bull",
+          "time": "11 LAPS",
+          "point": 0,
+          "country": "New Zealand",
+          "team_slug": "red-bull",
+          "driver_slug": "liam-lawson"
+        },
+        {
+          "gap": "12 LAPS",
+          "pos": "16",
+          "laps": "45",
+          "name": "Gabriel Bortoleto",
+          "pits": "5",
+          "team": "Kick Sauber",
+          "time": "12 LAPS",
+          "point": 0,
+          "country": "Brazil",
+          "team_slug": "kick-sauber",
+          "driver_slug": "gabriel-bortoleto"
+        },
+        {
+          "gap": "25 LAPS",
+          "pos": "17",
+          "laps": "32",
+          "name": "Fernando Alonso",
+          "pits": "3",
+          "team": "Aston Martin",
+          "time": "25 LAPS",
+          "point": 0,
+          "country": "Spain",
+          "team_slug": "aston-martin",
+          "driver_slug": "fernando-alonso"
+        },
+        {
+          "gap": "",
+          "pos": "DNS",
+          "laps": "0",
+          "name": "Carlos Sainz",
+          "pits": "0",
+          "team": "Williams",
+          "time": "",
+          "point": 0,
+          "country": "Spain",
+          "team_slug": "williams",
+          "driver_slug": "carlos-sainz"
+        },
+        {
+          "gap": "",
+          "pos": "DNS",
+          "laps": "0",
+          "name": "Jack Doohan",
+          "pits": "0",
+          "team": "Alpine",
+          "time": "",
+          "point": 0,
+          "country": "Australia",
+          "team_slug": "alpine",
+          "driver_slug": "jack-doohan"
+        },
+        {
+          "gap": "",
+          "pos": "DNS",
+          "laps": "0",
+          "name": "Isack Hadjar",
+          "pits": "0",
+          "team": "Racing Bulls",
+          "time": "",
+          "point": 0,
+          "country": "France",
+          "team_slug": "racing-bulls",
+          "driver_slug": "isack-hadjar"
+        }
+      ]
+    }
+  ]
+}
 
-
-export const resultThree = {"MRData":{"xmlns":"http:\/\/ergast.com\/mrd\/1.5","series":"f1","url":"http://ergast.com/api/f1/current/last/results.json","limit":"30","offset":"0","total":"19","RaceTable":{"season":"2024","round":"3","Races":[{"season":"2024","round":"3","url":"https:\/\/en.wikipedia.org\/wiki\/2024_Australian_Grand_Prix","raceName":"Australian Grand Prix","Circuit":{"circuitId":"albert_park","url":"http://en.wikipedia.org/wiki/Melbourne_Grand_Prix_Circuit","circuitName":"Albert Park Grand Prix Circuit","Location":{"lat":"-37.8497","long":"144.968","locality":"Melbourne","country":"Australia"}},"date":"2024-03-24","time":"04:00:00Z","Results":[{"number":"55","position":"1","positionText":"1","points":"25","Driver":{"driverId":"sainz","permanentNumber":"55","code":"SAI","url":"http:\/\/en.wikipedia.org\/wiki\/Carlos_Sainz_Jr.","givenName":"Carlos","familyName":"Sainz","dateOfBirth":"1994-09-01","nationality":"Spanish"},"Constructor":{"constructorId":"ferrari","url":"http:\/\/en.wikipedia.org\/wiki\/Scuderia_Ferrari","name":"Ferrari","nationality":"Italian"},"grid":"2","laps":"58","status":"Finished","Time":{"millis":"4826843","time":"1:20:26.843"},"FastestLap":{"rank":"3","lap":"48","Time":{"time":"1:20.031"},"AverageSpeed":{"units":"kph","speed":"237.418"}}},{"number":"16","position":"2","positionText":"2","points":"19","Driver":{"driverId":"leclerc","permanentNumber":"16","code":"LEC","url":"http:\/\/en.wikipedia.org\/wiki\/Charles_Leclerc","givenName":"Charles","familyName":"Leclerc","dateOfBirth":"1997-10-16","nationality":"Monegasque"},"Constructor":{"constructorId":"ferrari","url":"http:\/\/en.wikipedia.org\/wiki\/Scuderia_Ferrari","name":"Ferrari","nationality":"Italian"},"grid":"4","laps":"58","status":"Finished","Time":{"millis":"4829209","time":"+2.366"},"FastestLap":{"rank":"1","lap":"56","Time":{"time":"1:19.813"},"AverageSpeed":{"units":"kph","speed":"238.066"}}},{"number":"4","position":"3","positionText":"3","points":"15","Driver":{"driverId":"norris","permanentNumber":"4","code":"NOR","url":"http:\/\/en.wikipedia.org\/wiki\/Lando_Norris","givenName":"Lando","familyName":"Norris","dateOfBirth":"1999-11-13","nationality":"British"},"Constructor":{"constructorId":"mclaren","url":"http:\/\/en.wikipedia.org\/wiki\/McLaren","name":"McLaren","nationality":"British"},"grid":"3","laps":"58","status":"Finished","Time":{"millis":"4832747","time":"+5.904"},"FastestLap":{"rank":"2","lap":"1","Time":{"time":"1:19.915"},"AverageSpeed":{"units":"kph","speed":"237.762"}}},{"number":"81","position":"4","positionText":"4","points":"12","Driver":{"driverId":"piastri","permanentNumber":"81","code":"PIA","url":"http:\/\/en.wikipedia.org\/wiki\/Oscar_Piastri","givenName":"Oscar","familyName":"Piastri","dateOfBirth":"2001-04-06","nationality":"Australian"},"Constructor":{"constructorId":"mclaren","url":"http:\/\/en.wikipedia.org\/wiki\/McLaren","name":"McLaren","nationality":"British"},"grid":"5","laps":"58","status":"Finished","Time":{"millis":"4862613","time":"+35.770"},"FastestLap":{"rank":"4","lap":"1","Time":{"time":"1:20.199"},"AverageSpeed":{"units":"kph","speed":"236.920"}}},{"number":"11","position":"5","positionText":"5","points":"10","Driver":{"driverId":"perez","permanentNumber":"11","code":"PER","url":"http:\/\/en.wikipedia.org\/wiki\/Sergio_P%C3%A9rez","givenName":"Sergio","familyName":"Pérez","dateOfBirth":"1990-01-26","nationality":"Mexican"},"Constructor":{"constructorId":"red_bull","url":"http:\/\/en.wikipedia.org\/wiki\/Red_Bull_Racing","name":"Red Bull","nationality":"Austrian"},"grid":"6","laps":"58","status":"Finished","Time":{"millis":"4883152","time":"+56.309"},"FastestLap":{"rank":"6","lap":"47","Time":{"time":"1:20.388"},"AverageSpeed":{"units":"kph","speed":"236.363"}}},{"number":"18","position":"6","positionText":"6","points":"8","Driver":{"driverId":"stroll","permanentNumber":"18","code":"STR","url":"http:\/\/en.wikipedia.org\/wiki\/Lance_Stroll","givenName":"Lance","familyName":"Stroll","dateOfBirth":"1998-10-29","nationality":"Canadian"},"Constructor":{"constructorId":"aston_martin","url":"http:\/\/en.wikipedia.org\/wiki\/Aston_Martin_in_Formula_One","name":"Aston Martin","nationality":"British"},"grid":"9","laps":"58","status":"Finished","Time":{"millis":"4920065","time":"+1:33.222"},"FastestLap":{"rank":"8","lap":"49","Time":{"time":"1:20.930"},"AverageSpeed":{"units":"kph","speed":"234.780"}}},{"number":"22","position":"7","positionText":"7","points":"6","Driver":{"driverId":"tsunoda","permanentNumber":"22","code":"TSU","url":"http:\/\/en.wikipedia.org\/wiki\/Yuki_Tsunoda","givenName":"Yuki","familyName":"Tsunoda","dateOfBirth":"2000-05-11","nationality":"Japanese"},"Constructor":{"constructorId":"rb","url":"http:\/\/en.wikipedia.org\/wiki\/RB_Formula_One_Team","name":"RB F1 Team","nationality":"Italian"},"grid":"8","laps":"58","status":"Finished","Time":{"millis":"4922444","time":"+1:35.601"},"FastestLap":{"rank":"11","lap":"46","Time":{"time":"1:21.134"},"AverageSpeed":{"units":"kph","speed":"234.190"}}},{"number":"14","position":"8","positionText":"8","points":"4","Driver":{"driverId":"alonso","permanentNumber":"14","code":"ALO","url":"http:\/\/en.wikipedia.org\/wiki\/Fernando_Alonso","givenName":"Fernando","familyName":"Alonso","dateOfBirth":"1981-07-29","nationality":"Spanish"},"Constructor":{"constructorId":"aston_martin","url":"http:\/\/en.wikipedia.org\/wiki\/Aston_Martin_in_Formula_One","name":"Aston Martin","nationality":"British"},"grid":"10","laps":"58","status":"Finished","Time":{"millis":"4927835","time":"+1:40.992"},"FastestLap":{"rank":"7","lap":"52","Time":{"time":"1:20.493"},"AverageSpeed":{"units":"kph","speed":"236.055"}}},{"number":"27","position":"9","positionText":"9","points":"2","Driver":{"driverId":"hulkenberg","permanentNumber":"27","code":"HUL","url":"http:\/\/en.wikipedia.org\/wiki\/Nico_H%C3%BClkenberg","givenName":"Nico","familyName":"Hülkenberg","dateOfBirth":"1987-08-19","nationality":"German"},"Constructor":{"constructorId":"haas","url":"http:\/\/en.wikipedia.org\/wiki\/Haas_F1_Team","name":"Haas F1 Team","nationality":"American"},"grid":"16","laps":"58","status":"Finished","Time":{"millis":"4931396","time":"+1:44.553"},"FastestLap":{"rank":"12","lap":"46","Time":{"time":"1:21.145"},"AverageSpeed":{"units":"kph","speed":"234.158"}}},{"number":"20","position":"10","positionText":"10","points":"1","Driver":{"driverId":"kevin_magnussen","permanentNumber":"20","code":"MAG","url":"http:\/\/en.wikipedia.org\/wiki\/Kevin_Magnussen","givenName":"Kevin","familyName":"Magnussen","dateOfBirth":"1992-10-05","nationality":"Danish"},"Constructor":{"constructorId":"haas","url":"http:\/\/en.wikipedia.org\/wiki\/Haas_F1_Team","name":"Haas F1 Team","nationality":"American"},"grid":"14","laps":"57","status":"+1 Lap","FastestLap":{"rank":"9","lap":"44","Time":{"time":"1:21.082"},"AverageSpeed":{"units":"kph","speed":"234.340"}}},{"number":"23","position":"11","positionText":"11","points":"0","Driver":{"driverId":"albon","permanentNumber":"23","code":"ALB","url":"http:\/\/en.wikipedia.org\/wiki\/Alexander_Albon","givenName":"Alexander","familyName":"Albon","dateOfBirth":"1996-03-23","nationality":"Thai"},"Constructor":{"constructorId":"williams","url":"http:\/\/en.wikipedia.org\/wiki\/Williams_Grand_Prix_Engineering","name":"Williams","nationality":"British"},"grid":"12","laps":"57","status":"+1 Lap","FastestLap":{"rank":"17","lap":"46","Time":{"time":"1:21.618"},"AverageSpeed":{"units":"kph","speed":"232.801"}}},{"number":"3","position":"12","positionText":"12","points":"0","Driver":{"driverId":"ricciardo","permanentNumber":"3","code":"RIC","url":"http:\/\/en.wikipedia.org\/wiki\/Daniel_Ricciardo","givenName":"Daniel","familyName":"Ricciardo","dateOfBirth":"1989-07-01","nationality":"Australian"},"Constructor":{"constructorId":"rb","url":"http:\/\/en.wikipedia.org\/wiki\/RB_Formula_One_Team","name":"RB F1 Team","nationality":"Italian"},"grid":"18","laps":"57","status":"+1 Lap","FastestLap":{"rank":"13","lap":"46","Time":{"time":"1:21.239"},"AverageSpeed":{"units":"kph","speed":"233.887"}}},{"number":"10","position":"13","positionText":"13","points":"0","Driver":{"driverId":"gasly","permanentNumber":"10","code":"GAS","url":"http:\/\/en.wikipedia.org\/wiki\/Pierre_Gasly","givenName":"Pierre","familyName":"Gasly","dateOfBirth":"1996-02-07","nationality":"French"},"Constructor":{"constructorId":"alpine","url":"http:\/\/en.wikipedia.org\/wiki\/Alpine_F1_Team","name":"Alpine F1 Team","nationality":"French"},"grid":"17","laps":"57","status":"+1 Lap","FastestLap":{"rank":"10","lap":"51","Time":{"time":"1:21.090"},"AverageSpeed":{"units":"kph","speed":"234.317"}}},{"number":"77","position":"14","positionText":"14","points":"0","Driver":{"driverId":"bottas","permanentNumber":"77","code":"BOT","url":"http:\/\/en.wikipedia.org\/wiki\/Valtteri_Bottas","givenName":"Valtteri","familyName":"Bottas","dateOfBirth":"1989-08-28","nationality":"Finnish"},"Constructor":{"constructorId":"sauber","url":"http:\/\/en.wikipedia.org\/wiki\/Sauber_Motorsport","name":"Sauber","nationality":"Swiss"},"grid":"13","laps":"57","status":"+1 Lap","FastestLap":{"rank":"16","lap":"48","Time":{"time":"1:21.422"},"AverageSpeed":{"units":"kph","speed":"233.361"}}},{"number":"24","position":"15","positionText":"15","points":"0","Driver":{"driverId":"zhou","permanentNumber":"24","code":"ZHO","url":"http:\/\/en.wikipedia.org\/wiki\/Zhou_Guanyu","givenName":"Guanyu","familyName":"Zhou","dateOfBirth":"1999-05-30","nationality":"Chinese"},"Constructor":{"constructorId":"sauber","url":"http:\/\/en.wikipedia.org\/wiki\/Sauber_Motorsport","name":"Sauber","nationality":"Swiss"},"grid":"19","laps":"57","status":"+1 Lap","FastestLap":{"rank":"14","lap":"49","Time":{"time":"1:21.327"},"AverageSpeed":{"units":"kph","speed":"233.634"}}},{"number":"31","position":"16","positionText":"16","points":"0","Driver":{"driverId":"ocon","permanentNumber":"31","code":"OCO","url":"http:\/\/en.wikipedia.org\/wiki\/Esteban_Ocon","givenName":"Esteban","familyName":"Ocon","dateOfBirth":"1996-09-17","nationality":"French"},"Constructor":{"constructorId":"alpine","url":"http:\/\/en.wikipedia.org\/wiki\/Alpine_F1_Team","name":"Alpine F1 Team","nationality":"French"},"grid":"15","laps":"57","status":"+1 Lap","FastestLap":{"rank":"15","lap":"45","Time":{"time":"1:21.354"},"AverageSpeed":{"units":"kph","speed":"233.557"}}},{"number":"63","position":"17","positionText":"17","points":"0","Driver":{"driverId":"russell","permanentNumber":"63","code":"RUS","url":"http:\/\/en.wikipedia.org\/wiki\/George_Russell_(racing_driver)","givenName":"George","familyName":"Russell","dateOfBirth":"1998-02-15","nationality":"British"},"Constructor":{"constructorId":"mercedes","url":"http:\/\/en.wikipedia.org\/wiki\/Mercedes-Benz_in_Formula_One","name":"Mercedes","nationality":"German"},"grid":"7","laps":"56","status":"Accident","FastestLap":{"rank":"5","lap":"53","Time":{"time":"1:20.284"},"AverageSpeed":{"units":"kph","speed":"236.669"}}},{"number":"44","position":"18","positionText":"R","points":"0","Driver":{"driverId":"hamilton","permanentNumber":"44","code":"HAM","url":"http:\/\/en.wikipedia.org\/wiki\/Lewis_Hamilton","givenName":"Lewis","familyName":"Hamilton","dateOfBirth":"1985-01-07","nationality":"British"},"Constructor":{"constructorId":"mercedes","url":"http:\/\/en.wikipedia.org\/wiki\/Mercedes-Benz_in_Formula_One","name":"Mercedes","nationality":"German"},"grid":"11","laps":"15","status":"Engine","FastestLap":{"rank":"18","lap":"11","Time":{"time":"1:22.444"},"AverageSpeed":{"units":"kph","speed":"230.469"}}},{"number":"1","position":"19","positionText":"R","points":"0","Driver":{"driverId":"max_verstappen","permanentNumber":"33","code":"VER","url":"http:\/\/en.wikipedia.org\/wiki\/Max_Verstappen","givenName":"Max","familyName":"Verstappen","dateOfBirth":"1997-09-30","nationality":"Dutch"},"Constructor":{"constructorId":"red_bull","url":"http:\/\/en.wikipedia.org\/wiki\/Red_Bull_Racing","name":"Red Bull","nationality":"Austrian"},"grid":"1","laps":"3","status":"Brakes","FastestLap":{"rank":"19","lap":"3","Time":{"time":"1:23.115"},"AverageSpeed":{"units":"kph","speed":"228.608"}}}]}]}}};
+export { allResults };
