@@ -1,4 +1,54 @@
-export default {
+export type AllResults = {
+  data: Race[];
+}
+
+export type Race = {
+  race_id: number;
+  race_name: string;
+  venue_name: string;
+  match_date: string;
+  start_date: string;
+  end_date: string;
+  country: string;
+  country_code: string;
+  sessions: string[];
+  results: Result[];
+};
+
+export type Result = {
+  gap: string;
+  pos: string;
+  laps: string;
+  name: string;
+  pits: string;
+  team: string;
+  time: string;
+  point: number;
+  country: string;
+  team_slug: string;
+  driver_slug: string;
+};
+
+export type FormattedRaceResult = {
+  round: string;
+  raceName: string;
+  results: FormattedDriverResult[]
+  circuit: {
+    country: string;
+    locality: string
+  }
+};
+  
+export type FormattedDriverResult = {
+  position: string;
+  driver: {
+    id: string;
+    name: string;
+  };
+  team: string;
+}
+
+const allResults: AllResults = {
   "data": [
     {
       "race_id": 1139,
@@ -3677,3 +3727,5 @@ export default {
     }
   ]
 };
+
+export { allResults };
