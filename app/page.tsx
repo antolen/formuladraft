@@ -58,6 +58,7 @@ export default async function Home() {
   const driverStats = getPointsByDriver(raceResults.results);
   const pointsByPerson = getPointsByPerson(driverStats);
   const peopleKeys = Object.keys(pointsByPerson).sort((a, b) => pointsByPerson[b].total - pointsByPerson[a].total);
+  console.log(driverStats);
 
   return (
     <main className="min-h-screen p-8 sm:p-24 sm:py-12 overflow-hidden">
@@ -82,7 +83,7 @@ export default async function Home() {
             {Object.keys(driverStats).map((driver) => (
               <tr key={driver} className="rounded m-2">
                 <th className="sticky left-0 w-[180px] p-2 z-10 bg-white">{driver}</th>
-                {Object.keys(driverStats[driver]).map((points) => (
+                {Object.keys(driverStats[driver]).reverse().map((points) => (
                   <td key={`${driver}-${points}`} className="p-2 w-[130px]">{driverStats[driver][points]}</td>
                 ))}
                 {racesCount > Object.keys(driverStats[driver]).length ? (
