@@ -112,4 +112,9 @@ export const drivers: Driver = {
     "team": "alpine",
     "pick": "Anton",
    },
+   "franco-colapinto": {
+    "name": "Franco Colapinto",
+    "team": "alpine",
+    "pick": "Anton",
+   },
 }

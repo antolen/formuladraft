@@ -3,7 +3,7 @@ export const revalidate = 60;
 import { kv } from '@vercel/kv';
 
 import { allRaces } from "./static/races";
-import { allResults, AllResults, FormattedRaceResult } from './static/raceResults';
+import allResults from './static/raceResults';
 import { getPointsByDriver } from "./utils/getPointsByDriver";
 import { getPointsByPerson } from "./utils/getPointsByPerson";
 import  DraftResults from './components/DraftResults';
