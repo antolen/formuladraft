@@ -2,10 +2,10 @@
 
 import { allRaces } from "../static/races";
 
-export const checkForNewRace = (existingCount: number) => {
+export const checkForNewRace = (allRaceResults: any) => {
   const currentDate = new Date();
+  const existingCount = Array.isArray(allRaceResults?.data) ? allRaceResults.data.length : 0;
   const totalRaces = allRaces.length;
-  let missingRace = null;
 
   const pastRaces = allRaces.reduce((raceNames: string[], race) => {
     if (new Date(race.match_date) < currentDate) {
@@ -15,8 +15,8 @@ export const checkForNewRace = (existingCount: number) => {
   }, []);
 
   if (pastRaces.length > existingCount && totalRaces > existingCount) {
-    missingRace = allRaces[existingCount].name;
+    return true
   }
 
-  return !!missingRace;
+  return false;
 }
