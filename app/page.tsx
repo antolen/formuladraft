@@ -76,14 +76,9 @@ export default async function Home() {
             {Object.keys(driverStats).map((driver) => (
               <tr key={driver} className="rounded m-2">
                 <th className="sticky left-0 w-[180px] p-2 z-10 bg-white">{driver}</th>
-                {Object.keys(driverStats[driver]).map((points) => (
-                  <td key={`${driver}-${points}`} className="p-2 w-[130px]">{driverStats[driver][points]}</td>
+                {allRaces.map((race) => (
+                  <td key={`${driver}-${race.name}`} className="p-2 w-[130px]">{driverStats[driver][race.name] || ''}</td>
                 ))}
-                {racesCount > Object.keys(driverStats[driver]).length ? (
-                  Array.from({ length: racesCount - Object.keys(driverStats[driver]).length }).map((_val, index) => (
-                    <td key={index} className="w-[190px]"></td>
-                  ))
-                ) : null}
               </tr>
             ))}
           </tbody>
@@ -92,4 +87,3 @@ export default async function Home() {
     </main>
   );
 }
-
