@@ -45,7 +45,7 @@ export const allRaces =
     },
     {
         "id": 1133,
-        "name": "Emilia Romagna Grand Prix",
+        "name": "Italian (Emilia-Romagna) Grand Prix",
         "date": "18 May",
         "match_date": "2025-05-18",
     },

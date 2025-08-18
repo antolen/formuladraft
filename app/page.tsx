@@ -1,6 +1,5 @@
 export const revalidate = 60;
-
-import { kv } from '@vercel/kv';
+import { createClient } from 'redis';
 
 import { allRaces } from "./static/races";
 import { allResults, AllResults, FormattedRaceResult } from './static/raceResults';
@@ -12,35 +11,30 @@ import { checkForNewRace } from './utils/checkForNewRace';
 
 
 async function getRaceResults() {
-  /*
   try {
-    const formulaResults: { results: FormattedRaceResult[] } | null = await kv.get('formula');
+    const redis = await createClient({ url: process.env.REDIS_URL }).connect();
+    const result = await redis.get("formula");
+    const currentResults = result ? JSON.parse(result) : allResults;
 
-    if (!formulaResults) {
-      console.log('MISSING DATA');
-    } else {
-      // @ts-ignore
-      if (checkForNewRace(formulaResults.results.length)) {
-        const newResult = await fetchApiResult(formulaResults?.results?.length + 1);
-        if (newResult) {
-          const newFormattedResult = formatSingleResult(newResult);
-          formulaResults.results.push(newFormattedResult);
-          await kv.set('formula', formulaResults);
-        }
+    if (checkForNewRace(currentResults)) {
+      const newResult = await fetchApiResult();
+
+      if (newResult) {
+        await redis.set('formula', JSON.stringify(newResult));
+        return formatRaceResults(newResult);
       }
-
-      return formulaResults as { results: FormattedRaceResult[] };
     }
+
+    return formatRaceResults(currentResults);
   } catch (error) {
     console.log('error fetching results', error)
   }
-  */
-
   return formatRaceResults(allResults);
 }
 
-async function fetchApiResult(id: number): Promise<AllResults|null> {
-  const res = await fetch(`https://sports-api.prod.ps-aws.com/api/motor/seasons/2025/results`);
+async function fetchApiResult(): Promise<AllResults|null> {
+  const res = await fetch('http://sdms.planetsport.com/api/motor/seasons/2025/results', { cache: 'no-cache'});
+  console.log('fetching races');
 
   if (!res.ok) {
     console.log('error fetching results', res);
@@ -82,14 +76,9 @@ export default async function Home() {
             {Object.keys(driverStats).map((driver) => (
               <tr key={driver} className="rounded m-2">
                 <th className="sticky left-0 w-[180px] p-2 z-10 bg-white">{driver}</th>
-                {Object.keys(driverStats[driver]).map((points) => (
-                  <td key={`${driver}-${points}`} className="p-2 w-[130px]">{driverStats[driver][points]}</td>
+                {allRaces.map((race) => (
+                  <td key={`${driver}-${race.name}`} className="p-2 w-[130px]">{driverStats[driver][race.name] || ''}</td>
                 ))}
-                {racesCount > Object.keys(driverStats[driver]).length ? (
-                  Array.from({ length: racesCount - Object.keys(driverStats[driver]).length }).map((_val, index) => (
-                    <td key={index} className="w-[190px]"></td>
-                  ))
-                ) : null}
               </tr>
             ))}
           </tbody>
@@ -98,4 +87,3 @@ export default async function Home() {
     </main>
   );
 }
-
