@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { GetDraftResponse } from '@/app/lib/draftTypes';
-import { TOTAL_DRIVERS } from '@/app/lib/draftOrder';
-import NameSelector from './NameSelector';
+import { TOTAL_DRIVERS, PARTICIPANTS } from '@/app/lib/draftOrder';
 import DriverGrid from './DriverGrid';
 import PicksSummary from './PicksSummary';
 import SaveDraftButton from './SaveDraftButton';
@@ -141,9 +140,31 @@ export default function DraftClient() {
     );
   }
 
+  if (!selectedName) {
+    return (
+      <main className="min-h-screen flex flex-col items-center justify-center p-8">
+        <h1 className="text-3xl font-bold mb-10">F1 Snake Draft 2026</h1>
+        <div className="border-red-500 border-t-8 border-r-8 border-b-8 rounded-r-2xl pt-8 pb-8 pr-10 pl-6">
+          <h2 className="text-2xl font-bold mb-6">Who are you?</h2>
+          <div className="flex flex-col gap-3">
+            {PARTICIPANTS.map((name) => (
+              <button
+                key={name}
+                onClick={() => setSelectedName(name)}
+                className="px-8 py-4 text-lg font-bold rounded-md border-2 border-white hover:bg-red-500 hover:border-red-500 transition-colors text-left"
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   const { draftState, currentPicker, availableDriverSlugs } = draftData;
   const picksCount = draftState.picks.length;
-  const isMyTurn = !!selectedName && selectedName === currentPicker;
+  const isMyTurn = selectedName === currentPicker;
   const isDraftComplete = picksCount >= TOTAL_DRIVERS;
 
   return (
@@ -158,10 +179,11 @@ export default function DraftClient() {
 
       <div className="border-red-500 border-t-8 border-r-8 border-b-8 rounded-r-2xl pt-4 pb-4 pr-4">
 
-      <NameSelector selectedName={selectedName} onSelect={setSelectedName} />
-
       {/* Status banner */}
       <section className="mb-6">
+        <p className="text-sm text-gray-400 mb-2">
+          Picking as: <strong className="text-white">{selectedName}</strong>
+        </p>
         {draftState.saved ? (
           <p className="text-lg font-bold text-green-600">Draft is locked! 🏁</p>
         ) : isDraftComplete ? (
@@ -175,7 +197,7 @@ export default function DraftClient() {
             {isMyTurn && (
               <p className="text-sm text-red-500 font-semibold mt-1">It&apos;s your turn! Select a driver below.</p>
             )}
-            {selectedName && !isMyTurn && (
+            {!isMyTurn && (
               <p className="text-sm text-gray-400 mt-1">
                 Waiting for {currentPicker} to pick…
               </p>
