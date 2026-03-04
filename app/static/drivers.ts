@@ -2,6 +2,7 @@ export type DriverInfo = {
   name: string;
   team: string;
   image: string;
+  pick?: string;
 };
 
 const BASE = 'https://media.formula1.com/image/upload/c_lfill,w_440/q_auto/d_common:f1:2026:fallback:driver:2026fallbackdriverright.webp/v1740000000/common/f1/2026';
