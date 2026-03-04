@@ -184,16 +184,14 @@ export default function DraftClient() {
         )}
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <DriverGrid
-          availableDriverSlugs={availableDriverSlugs}
-          picks={draftState.picks}
-          isMyTurn={isMyTurn}
-          onPick={handlePick}
-          pickLoading={pickLoading}
-        />
-        <PicksSummary picks={draftState.picks} />
-      </div>
+      <DriverGrid
+        availableDriverSlugs={availableDriverSlugs}
+        picks={draftState.picks}
+        isMyTurn={isMyTurn}
+        onPick={handlePick}
+        pickLoading={pickLoading}
+      />
+      <PicksSummary picks={draftState.picks} />
 
       <SaveDraftButton
         selectedName={selectedName}

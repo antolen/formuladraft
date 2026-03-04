@@ -31,7 +31,7 @@ export default function PicksSummary({ picks }: PicksSummaryProps) {
 
           return (
             <div key={participant} className={`bg-white rounded-md p-3 border-l-4 ${borderColor}`}>
-              <h3 className="font-bold text-sm mb-2">{participant}</h3>
+              <h3 className="font-bold text-sm mb-2 text-black">{participant}</h3>
               {participantPicks.length === 0 ? (
                 <p className="text-gray-300 text-xs">No picks yet</p>
               ) : (
