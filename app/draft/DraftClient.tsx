@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { GetDraftResponse } from '@/app/lib/draftTypes';
 import { TOTAL_DRIVERS, PARTICIPANTS } from '@/app/lib/draftOrder';
+import { drivers } from '@/app/static/drivers';
 import DriverGrid from './DriverGrid';
 import PicksSummary from './PicksSummary';
 import SaveDraftButton from './SaveDraftButton';
@@ -14,6 +15,7 @@ export default function DraftClient() {
   const [pickLoading, setPickLoading] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
+  const [undoLoading, setUndoLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -124,6 +126,29 @@ export default function DraftClient() {
     }
   };
 
+  const handleUndo = async () => {
+    if (!selectedName || undoLoading) return;
+    setUndoLoading(true);
+    try {
+      const res = await fetch('/api/draft/undo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ participant: selectedName }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        showError('Could not undo last pick.');
+      } else {
+        await fetchDraft();
+        startPolling();
+      }
+    } catch {
+      showError('Network error. Please try again.');
+    } finally {
+      setUndoLoading(false);
+    }
+  };
+
   if (loading) {
     return (
       <main className="min-h-screen p-8 sm:p-24 sm:py-12">
@@ -143,15 +168,15 @@ export default function DraftClient() {
   if (!selectedName) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center p-8">
-        <h1 className="text-3xl font-bold mb-10">F1 Snake Draft 2026</h1>
-        <div className="border-red-500 border-t-8 border-r-8 border-b-8 rounded-r-2xl pt-8 pb-8 pr-10 pl-6">
+        <h1 className="text-3xl font-bold mb-10">F1 Draft 2026</h1>
+        <div className="pt-8 pb-8 pr-10 pl-6">
           <h2 className="text-2xl font-bold mb-6">Who are you?</h2>
           <div className="flex flex-col gap-3">
             {PARTICIPANTS.map((name) => (
               <button
                 key={name}
                 onClick={() => setSelectedName(name)}
-                className="px-8 py-4 text-lg font-bold rounded-md border-2 border-white hover:bg-red-500 hover:border-red-500 transition-colors text-left"
+                className="px-8 py-4 text-lg font-bold rounded-md bg-white text-black hover:bg-red-500 hover:text-white transition-colors text-center"
               >
                 {name}
               </button>
@@ -169,7 +194,7 @@ export default function DraftClient() {
 
   return (
     <main className="min-h-screen p-8 sm:p-24 sm:py-12 overflow-hidden">
-      <h1 className="text-3xl font-bold mb-6">F1 Snake Draft 2026</h1>
+      <h1 className="text-3xl font-bold mb-6">F1 Draft 2026</h1>
 
       {errorMessage && (
         <div className="mb-4 py-3 px-4 bg-red-50 border border-red-300 text-red-700 rounded-md text-sm font-medium">
@@ -197,6 +222,18 @@ export default function DraftClient() {
             {isMyTurn && (
               <p className="text-sm text-red-500 font-semibold mt-1">It&apos;s your turn! Select a driver below.</p>
             )}
+            {isMyTurn && (() => {
+              const lastPickByUser = [...draftState.picks].reverse().find(p => p.participant === selectedName);
+              return lastPickByUser ? (
+                <button
+                  onClick={handleUndo}
+                  disabled={undoLoading}
+                  className="mt-2 text-sm text-gray-400 hover:text-red-400 underline transition-colors disabled:opacity-50"
+                >
+                  ↩ Undo last pick ({drivers[lastPickByUser.driverSlug]?.name})
+                </button>
+              ) : null;
+            })()}
             {!isMyTurn && (
               <p className="text-sm text-gray-400 mt-1">
                 Waiting for {currentPicker} to pick…
