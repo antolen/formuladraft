@@ -22,6 +22,8 @@ export const getPointsByPerson = (allResults: DriverStats) => {
         if (Number(driverResults[raceKey])) {
         const points = Math.abs(Number(driverResults[raceKey]) - 21);
 
+        if (!currentDriver.pick) return;
+
         if (!personStats[currentDriver.pick]) {
           personStats[currentDriver.pick] = {
             total: 0,

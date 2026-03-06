@@ -28,6 +28,8 @@ const matchReplacementsToDriver = (raceName: string, replacements: FormattedDriv
 
     const driversOnTeam = teamDrivers[replacementTeam];
 
+    if (!driversOnTeam) return;
+
     const replacedDriver = driverStats[driversOnTeam[0]] ? driversOnTeam[1] : driversOnTeam[0];
 
     driverStats[replacedDriver] = {
