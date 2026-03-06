@@ -7,7 +7,7 @@ export const DRAFT_KEY = 'formula-draft';
 const memoryStore = new Map<string, string>();
 
 export async function getRedisClient() {
-  const client = createClient({ url: process.env.REDIS_URL });
+  const client = createClient({ url: process.env.formula_REDIS_URL });
   await client.connect();
   return client;
 }
