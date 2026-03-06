@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDraftState, setDraftState } from '@/app/lib/redisClient';
-import { currentPicker } from '@/app/lib/draftOrder';
+import { currentPicker, generatePickOrder } from '@/app/lib/draftOrder';
 import { DraftPick } from '@/app/lib/draftTypes';
+import { drivers } from '@/app/static/drivers';
 
 export async function POST(request: NextRequest) {
   try {
@@ -47,7 +48,17 @@ export async function POST(request: NextRequest) {
     await setDraftState(updatedState);
 
     const nextPicker = currentPicker(updatedState.picks.length);
-    return NextResponse.json({ success: true, draftState: updatedState, currentPicker: nextPicker });
+    const pickedSlugs = new Set(updatedState.picks.map((p) => p.driverSlug));
+    const availableDriverSlugs = Object.keys(drivers).filter((slug) => !pickedSlugs.has(slug));
+    const pickOrder = generatePickOrder();
+
+    return NextResponse.json({
+      success: true,
+      draftState: updatedState,
+      currentPicker: nextPicker,
+      availableDriverSlugs,
+      pickOrder,
+    });
   } catch (error) {
     console.error('POST /api/draft/pick error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

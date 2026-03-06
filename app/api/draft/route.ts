@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getDraftState } from '@/app/lib/redisClient';
+
+export const dynamic = 'force-dynamic';
 import { generatePickOrder, currentPicker } from '@/app/lib/draftOrder';
 import { GetDraftResponse } from '@/app/lib/draftTypes';
 import { drivers } from '@/app/static/drivers';

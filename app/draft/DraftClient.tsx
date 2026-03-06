@@ -87,8 +87,14 @@ export default function DraftClient() {
         await fetchDraft();
         startPolling();
       } else {
+        // Use the pick response directly to update state — no second GET needed
+        setDraftData({
+          draftState: data.draftState,
+          currentPicker: data.currentPicker,
+          availableDriverSlugs: data.availableDriverSlugs,
+          pickOrder: data.pickOrder,
+        });
         setPendingDriver(null);
-        await fetchDraft();
         startPolling();
       }
     } catch {
