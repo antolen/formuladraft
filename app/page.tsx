@@ -33,8 +33,9 @@ async function getRaceResults() {
 }
 
 async function fetchApiResult(): Promise<AllResults|null> {
-  const res = await fetch('http://sdms.planetsport.com/api/motor/seasons/2025/results', { cache: 'no-cache'});
+  // const res = await fetch('http://sdms.planetsport.com/api/motor/seasons/2025/results', { cache: 'no-cache'});
   console.log('fetching races');
+  const res = await fetch('');
 
   if (!res.ok) {
     console.log('error fetching results', res);

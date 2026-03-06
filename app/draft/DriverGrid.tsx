@@ -53,7 +53,7 @@ export default function DriverGrid({ availableDriverSlugs, picks, isMyTurn, onSe
           const teamColor = TEAM_COLORS[driver.team] ?? 'bg-gray-400';
           const pickerColor = picker ? (PARTICIPANT_COLORS[picker] ?? 'bg-gray-400') : '';
 
-          let cardClass = 'text-left rounded-md p-3 transition-all relative overflow-hidden ';
+          let cardClass = 'text-left rounded-md p-5 transition-all relative overflow-hidden ';
           if (!isAvailable) {
             cardClass += 'bg-gray-100 opacity-50 cursor-default';
           } else if (isPending) {
@@ -80,24 +80,26 @@ export default function DriverGrid({ availableDriverSlugs, picks, isMyTurn, onSe
                   onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                 />
               )}
-              <div className="relative pr-10">
+              <div className="relative pr-12">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className={`w-2 h-2 rounded-full flex-shrink-0 ${teamColor}`} />
-                  <span className={`text-xs font-semibold truncate ${!isAvailable ? 'text-gray-400' : 'text-black'}`}>
+                  <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${teamColor}`} />
+                  <span className={`text-sm font-semibold truncate ${!isAvailable ? 'text-gray-400' : 'text-black'}`}>
                     {driver.name}
                   </span>
                 </div>
-                <div className="text-[10px] text-gray-400 capitalize">{driver.team.replace(/_/g, ' ')}</div>
-                {picker && (
-                  <span className={`mt-1 inline-block text-white text-[10px] font-bold px-1.5 py-0.5 rounded ${pickerColor}`}>
-                    {picker}
-                  </span>
-                )}
-                {isPending && (
-                  <span className="mt-1 inline-block text-white text-[10px] font-bold px-1.5 py-0.5 rounded bg-red-500">
-                    Selected
-                  </span>
-                )}
+                <div className="text-xs text-gray-400 capitalize">{driver.team.replace(/_/g, ' ')}</div>
+                <div className="mt-1.5 h-[22px]">
+                  {picker && (
+                    <span className={`inline-block text-white text-xs font-bold px-2 py-0.5 rounded ${pickerColor}`}>
+                      {picker}
+                    </span>
+                  )}
+                  {isPending && (
+                    <span className="inline-block text-white text-xs font-bold px-2 py-0.5 rounded bg-red-500">
+                      Selected
+                    </span>
+                  )}
+                </div>
               </div>
             </button>
           );

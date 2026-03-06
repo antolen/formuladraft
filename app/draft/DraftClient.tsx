@@ -26,6 +26,11 @@ export default function DraftClient() {
       const data = await res.json();
       if (data && data.draftState) {
         setDraftData(data as GetDraftResponse);
+        // Clear any pending selection if that driver was picked by someone else
+        setPendingDriver(prev => {
+          if (prev && !data.availableDriverSlugs.includes(prev)) return null;
+          return prev;
+        });
       }
     } catch {
       // silently fail on poll
@@ -77,9 +82,19 @@ export default function DraftClient() {
           DRAFT_COMPLETE: 'All drivers have been picked.',
         };
         showError(messages[data.error] ?? 'Something went wrong.');
-      } else {
+        // Always refresh + clear selection after a failed pick so UI reflects real server state
         setPendingDriver(null);
         await fetchDraft();
+        startPolling();
+      } else {
+        // Use the pick response directly to update state — no second GET needed
+        setDraftData({
+          draftState: data.draftState,
+          currentPicker: data.currentPicker,
+          availableDriverSlugs: data.availableDriverSlugs,
+          pickOrder: data.pickOrder,
+        });
+        setPendingDriver(null);
         startPolling();
       }
     } catch {
