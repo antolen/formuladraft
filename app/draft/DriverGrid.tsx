@@ -53,7 +53,7 @@ export default function DriverGrid({ availableDriverSlugs, picks, isMyTurn, onSe
           const teamColor = TEAM_COLORS[driver.team] ?? 'bg-gray-400';
           const pickerColor = picker ? (PARTICIPANT_COLORS[picker] ?? 'bg-gray-400') : '';
 
-          let cardClass = 'text-left rounded-md p-5 transition-all relative overflow-hidden ';
+          let cardClass = 'text-left rounded-md py-5 pl-3 pr-5 transition-all relative overflow-hidden ';
           if (!isAvailable) {
             cardClass += 'bg-gray-100 opacity-50 cursor-default';
           } else if (isPending) {

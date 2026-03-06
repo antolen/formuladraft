@@ -195,7 +195,7 @@ export default function DraftClient() {
   const pendingDriverInfo = pendingDriver ? drivers[pendingDriver] : null;
 
   return (
-    <main className="min-h-screen p-8 sm:p-24 sm:py-12 overflow-hidden pb-32">
+    <main className="min-h-screen p-6 sm:p-16 sm:py-8 overflow-hidden pb-32">
       <h1 className="text-3xl font-bold mb-6">F1 Draft 2026</h1>
 
       {errorMessage && (
@@ -255,38 +255,46 @@ export default function DraftClient() {
 
       </div>
 
-      {/* Floating pick confirmation bar */}
-      {pendingDriverInfo && isMyTurn && (
+      {/* Floating bar — shown whenever it's the user's turn */}
+      {isMyTurn && !isDraftComplete && !draftState.saved && (
         <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-center gap-4 px-6 py-4 bg-black/95 backdrop-blur-sm border-t-2 border-red-500">
-          {pendingDriverInfo.image && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={pendingDriverInfo.image}
-              alt=""
-              className="h-14 w-auto object-contain pointer-events-none"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-            />
+          {pendingDriverInfo ? (
+            <>
+              {pendingDriverInfo.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={pendingDriverInfo.image}
+                  alt=""
+                  className="h-14 w-auto object-contain pointer-events-none"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+              )}
+              <div className="flex flex-col">
+                <span className="text-white font-bold text-lg leading-tight">{pendingDriverInfo.name}</span>
+                <span className="text-gray-400 text-xs capitalize">{pendingDriverInfo.team.replace(/_/g, ' ')}</span>
+              </div>
+              <div className="flex gap-3 ml-4">
+                <button
+                  onClick={handleConfirmPick}
+                  disabled={pickLoading}
+                  className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white font-bold rounded-md transition-colors disabled:opacity-50 whitespace-nowrap"
+                >
+                  {pickLoading ? 'Picking…' : 'Confirm Pick'}
+                </button>
+                <button
+                  onClick={() => setPendingDriver(null)}
+                  disabled={pickLoading}
+                  className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-md transition-colors disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+              </div>
+            </>
+          ) : (
+            <p className="text-white font-bold text-lg">
+              🏎 Your Pick — <span className="text-red-400">select a driver above</span>
+            </p>
           )}
-          <div className="flex flex-col">
-            <span className="text-white font-bold text-lg leading-tight">{pendingDriverInfo.name}</span>
-            <span className="text-gray-400 text-xs capitalize">{pendingDriverInfo.team.replace(/_/g, ' ')}</span>
-          </div>
-          <div className="flex gap-3 ml-4">
-            <button
-              onClick={handleConfirmPick}
-              disabled={pickLoading}
-              className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white font-bold rounded-md transition-colors disabled:opacity-50 whitespace-nowrap"
-            >
-              {pickLoading ? 'Picking…' : 'Confirm Pick'}
-            </button>
-            <button
-              onClick={() => setPendingDriver(null)}
-              disabled={pickLoading}
-              className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-md transition-colors disabled:opacity-50"
-            >
-              Cancel
-            </button>
-          </div>
         </div>
       )}
     </main>
