@@ -7,7 +7,8 @@ type DriverGridProps = {
   availableDriverSlugs: string[];
   picks: DraftPick[];
   isMyTurn: boolean;
-  onPick: (driverSlug: string) => void;
+  onSelect: (driverSlug: string) => void;
+  pendingDriver: string | null;
   pickLoading: boolean;
 };
 
@@ -33,7 +34,7 @@ const PARTICIPANT_COLORS: Record<string, string> = {
   Swim: 'bg-orange-500',
 };
 
-export default function DriverGrid({ availableDriverSlugs, picks, isMyTurn, onPick, pickLoading }: DriverGridProps) {
+export default function DriverGrid({ availableDriverSlugs, picks, isMyTurn, onSelect, pendingDriver, pickLoading }: DriverGridProps) {
   const pickedMap = new Map(picks.map((p) => [p.driverSlug, p.participant]));
   const allDriverSlugs = Object.keys(drivers);
 
@@ -48,21 +49,27 @@ export default function DriverGrid({ availableDriverSlugs, picks, isMyTurn, onPi
           const driver = drivers[slug];
           const picker = pickedMap.get(slug);
           const isAvailable = availableDriverSlugs.includes(slug);
+          const isPending = pendingDriver === slug;
           const teamColor = TEAM_COLORS[driver.team] ?? 'bg-gray-400';
           const pickerColor = picker ? (PARTICIPANT_COLORS[picker] ?? 'bg-gray-400') : '';
+
+          let cardClass = 'text-left rounded-md p-3 transition-all relative overflow-hidden ';
+          if (!isAvailable) {
+            cardClass += 'bg-gray-100 opacity-50 cursor-default';
+          } else if (isPending) {
+            cardClass += 'bg-white ring-2 ring-red-500 ring-offset-1 cursor-pointer shadow-lg';
+          } else if (isMyTurn) {
+            cardClass += 'bg-white hover:ring-2 hover:ring-red-400 cursor-pointer';
+          } else {
+            cardClass += 'bg-white cursor-default';
+          }
 
           return (
             <button
               key={slug}
               disabled={!isAvailable || !isMyTurn || pickLoading}
-              onClick={() => onPick(slug)}
-              className={`text-left rounded-md p-3 transition-all relative overflow-hidden ${
-                !isAvailable
-                  ? 'bg-gray-100 opacity-50 cursor-default'
-                  : isMyTurn
-                  ? 'bg-white hover:ring-2 hover:ring-red-500 cursor-pointer'
-                  : 'bg-white cursor-default'
-              }`}
+              onClick={() => onSelect(slug)}
+              className={cardClass}
             >
               {driver.image && (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -84,6 +91,11 @@ export default function DriverGrid({ availableDriverSlugs, picks, isMyTurn, onPi
                 {picker && (
                   <span className={`mt-1 inline-block text-white text-[10px] font-bold px-1.5 py-0.5 rounded ${pickerColor}`}>
                     {picker}
+                  </span>
+                )}
+                {isPending && (
+                  <span className="mt-1 inline-block text-white text-[10px] font-bold px-1.5 py-0.5 rounded bg-red-500">
+                    Selected
                   </span>
                 )}
               </div>

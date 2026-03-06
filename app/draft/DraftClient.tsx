@@ -12,10 +12,10 @@ export default function DraftClient() {
   const [selectedName, setSelectedName] = useState<string | null>(null);
   const [draftData, setDraftData] = useState<GetDraftResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [pendingDriver, setPendingDriver] = useState<string | null>(null);
   const [pickLoading, setPickLoading] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
-  const [undoLoading, setUndoLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -52,14 +52,21 @@ export default function DraftClient() {
     setTimeout(() => setErrorMessage(null), 4000);
   };
 
-  const handlePick = async (driverSlug: string) => {
+  // First click selects a driver (pending); second click on the same driver deselects it
+  const handleSelect = (driverSlug: string) => {
     if (!selectedName || pickLoading) return;
+    setPendingDriver(prev => prev === driverSlug ? null : driverSlug);
+  };
+
+  // Confirm button submits the pending pick to the API
+  const handleConfirmPick = async () => {
+    if (!selectedName || !pendingDriver || pickLoading) return;
     setPickLoading(true);
     try {
       const res = await fetch('/api/draft/pick', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ participant: selectedName, driverSlug }),
+        body: JSON.stringify({ participant: selectedName, driverSlug: pendingDriver }),
       });
       const data = await res.json();
       if (!data.success) {
@@ -71,6 +78,7 @@ export default function DraftClient() {
         };
         showError(messages[data.error] ?? 'Something went wrong.');
       } else {
+        setPendingDriver(null);
         await fetchDraft();
         startPolling();
       }
@@ -116,6 +124,7 @@ export default function DraftClient() {
       if (!data.success) {
         showError('Only Anton can reset the draft.');
       } else {
+        setPendingDriver(null);
         await fetchDraft();
         startPolling();
       }
@@ -123,29 +132,6 @@ export default function DraftClient() {
       showError('Network error. Please try again.');
     } finally {
       setResetLoading(false);
-    }
-  };
-
-  const handleUndo = async () => {
-    if (!selectedName || undoLoading) return;
-    setUndoLoading(true);
-    try {
-      const res = await fetch('/api/draft/undo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ participant: selectedName }),
-      });
-      const data = await res.json();
-      if (!data.success) {
-        showError('Could not undo last pick.');
-      } else {
-        await fetchDraft();
-        startPolling();
-      }
-    } catch {
-      showError('Network error. Please try again.');
-    } finally {
-      setUndoLoading(false);
     }
   };
 
@@ -191,9 +177,10 @@ export default function DraftClient() {
   const picksCount = draftState.picks.length;
   const isMyTurn = selectedName === currentPicker;
   const isDraftComplete = picksCount >= TOTAL_DRIVERS;
+  const pendingDriverInfo = pendingDriver ? drivers[pendingDriver] : null;
 
   return (
-    <main className="min-h-screen p-8 sm:p-24 sm:py-12 overflow-hidden">
+    <main className="min-h-screen p-8 sm:p-24 sm:py-12 overflow-hidden pb-32">
       <h1 className="text-3xl font-bold mb-6">F1 Draft 2026</h1>
 
       {errorMessage && (
@@ -222,18 +209,6 @@ export default function DraftClient() {
             {isMyTurn && (
               <p className="text-sm text-red-500 font-semibold mt-1">It&apos;s your turn! Select a driver below.</p>
             )}
-            {isMyTurn && (() => {
-              const lastPickByUser = [...draftState.picks].reverse().find(p => p.participant === selectedName);
-              return lastPickByUser ? (
-                <button
-                  onClick={handleUndo}
-                  disabled={undoLoading}
-                  className="mt-2 text-sm text-gray-400 hover:text-red-400 underline transition-colors disabled:opacity-50"
-                >
-                  ↩ Undo last pick ({drivers[lastPickByUser.driverSlug]?.name})
-                </button>
-              ) : null;
-            })()}
             {!isMyTurn && (
               <p className="text-sm text-gray-400 mt-1">
                 Waiting for {currentPicker} to pick…
@@ -247,7 +222,8 @@ export default function DraftClient() {
         availableDriverSlugs={availableDriverSlugs}
         picks={draftState.picks}
         isMyTurn={isMyTurn}
-        onPick={handlePick}
+        onSelect={handleSelect}
+        pendingDriver={pendingDriver}
         pickLoading={pickLoading}
       />
       <PicksSummary picks={draftState.picks} />
@@ -263,6 +239,41 @@ export default function DraftClient() {
       />
 
       </div>
+
+      {/* Floating pick confirmation bar */}
+      {pendingDriverInfo && isMyTurn && (
+        <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-center gap-4 px-6 py-4 bg-black/95 backdrop-blur-sm border-t-2 border-red-500">
+          {pendingDriverInfo.image && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={pendingDriverInfo.image}
+              alt=""
+              className="h-14 w-auto object-contain pointer-events-none"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
+          )}
+          <div className="flex flex-col">
+            <span className="text-white font-bold text-lg leading-tight">{pendingDriverInfo.name}</span>
+            <span className="text-gray-400 text-xs capitalize">{pendingDriverInfo.team.replace(/_/g, ' ')}</span>
+          </div>
+          <div className="flex gap-3 ml-4">
+            <button
+              onClick={handleConfirmPick}
+              disabled={pickLoading}
+              className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white font-bold rounded-md transition-colors disabled:opacity-50 whitespace-nowrap"
+            >
+              {pickLoading ? 'Picking…' : 'Confirm Pick'}
+            </button>
+            <button
+              onClick={() => setPendingDriver(null)}
+              disabled={pickLoading}
+              className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-md transition-colors disabled:opacity-50"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
