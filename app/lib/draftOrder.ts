@@ -1,4 +1,4 @@
-export const PARTICIPANTS = ['Michelle', 'Anna', 'Anton', 'Mike', 'Swim'] as const;
+export const PARTICIPANTS = ['Anton', 'Swim', 'Michelle', 'Mike', 'Anna'] as const;
 export type Participant = typeof PARTICIPANTS[number];
 
 export const TOTAL_DRIVERS = 22;
