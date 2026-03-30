@@ -12,7 +12,7 @@ import { checkForNewRace } from './utils/checkForNewRace';
 
 async function getRaceResults() {
   try {
-    const redis = await createClient({ url: process.env.REDIS_URL }).connect();
+    const redis = await createClient({ url: process.env.forumla_REDIS_URL }).connect();
     const result = await redis.get("formula");
     const currentResults = result ? JSON.parse(result) : allResults;
 
