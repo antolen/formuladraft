@@ -26,18 +26,6 @@ export const allRaces =
         "match_date": "2026-03-28",
     },
     {
-        "id": 1154,
-        "name": "Bahrain Grand Prix",
-        "date": "12 April",
-        "match_date": "2026-04-12",
-    },
-    {
-        "id": 1155,
-        "name": "Saudi Arabian Grand Prix",
-        "date": "19 April",
-        "match_date": "2026-04-19",
-    },
-    {
         "id": 1156,
         "name": "Miami Grand Prix",
         "date": "3 May",
