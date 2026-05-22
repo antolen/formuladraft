@@ -1,26 +1,40 @@
 export const revalidate = 60;
-import { createClient } from 'redis';
+import { put, get } from '@vercel/blob';
 
 import { allRaces } from "./static/races";
 import { allResults, AllResults, FormattedRaceResult } from './static/raceResults';
 import { getPointsByDriver } from "./utils/getPointsByDriver";
 import { getPointsByPerson } from "./utils/getPointsByPerson";
 import  DraftResults from './components/DraftResults';
-import { formatRaceResults, formatSingleResult } from './utils/formatRaceResults';
+import { formatRaceResults } from './utils/formatRaceResults';
 import { checkForNewRace } from './utils/checkForNewRace';
 
+const RACE_RESULTS_BLOB_PATH = 'race-results/formula.json';
+
+async function getBlobResults(): Promise<AllResults | null> {
+  try {
+    const result = await get(RACE_RESULTS_BLOB_PATH, { access: 'private' });
+    if (!result || result.statusCode !== 200) return null;
+    const text = await new Response(result.stream).text();
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
+}
 
 async function getRaceResults() {
   try {
-    const redis = await createClient({ url: process.env.forumla_REDIS_URL }).connect();
-    const result = await redis.get("formula");
-    const currentResults = result ? JSON.parse(result) : allResults;
+    const currentResults = (await getBlobResults()) ?? allResults;
 
     if (checkForNewRace(currentResults)) {
       const newResult = await fetchApiResult();
 
       if (newResult) {
-        await redis.set('formula', JSON.stringify(newResult));
+        await put(RACE_RESULTS_BLOB_PATH, JSON.stringify(newResult), {
+          access: 'private',
+          allowOverwrite: true,
+          contentType: 'application/json',
+        });
         return formatRaceResults(newResult);
       }
     }
@@ -34,7 +48,7 @@ async function getRaceResults() {
 
 async function fetchApiResult(): Promise<AllResults|null> {
   console.log('fetching races');
-  const res = await fetch('http://sdms.planetsport.com/api/motor/seasons/2026/results', { cache: 'no-cache' });
+  const res = await fetch('https://sdms.planetsport.com/api/motor/seasons/2026/results', { cache: 'no-cache' });
 
   if (!res.ok) {
     console.log('error fetching results', res);
