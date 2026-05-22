@@ -9,7 +9,7 @@ import  DraftResults from './components/DraftResults';
 import { formatRaceResults } from './utils/formatRaceResults';
 import { checkForNewRace } from './utils/checkForNewRace';
 
-const RACE_RESULTS_BLOB_PATH = 'race-results/formula.json';
+const RACE_RESULTS_BLOB_PATH = 'formula/formula.json';
 
 async function getBlobResults(): Promise<AllResults | null> {
   try {
