@@ -122,7 +122,7 @@ export const drivers: Record<string, DriverInfo> = {
     image: `${BASE}/williams/carsai01/2026williamscarsai01right.webp`,
     pick: 'Mike',
   },
-  'alexander-albon': {
+  'alex-albon': {
     name: 'Alexander Albon',
     team: 'williams',
     image: `${BASE}/williams/alealb01/2026williamsalealb01right.webp`,
