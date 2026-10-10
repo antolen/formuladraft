@@ -8,35 +8,24 @@ export type DriverStats = {
   }
 }
 
+// Stand-in driver slug -> drafted driver slug whose points they score.
+// Only applied in races where the drafted driver has no result of their own.
+const SUBSTITUTES: Record<string, string> = {
+  'yuki-tsunoda': 'isack-hadjar',
+};
+
 const matchReplacementsToDriver = (raceName: string, replacements: FormattedDriverResult[], driverStats: DriverStats) => {
   replacements.forEach((replacement) => {
-    const replacementTeam = replacement.team;
+    const replacedId = SUBSTITUTES[replacement.driver.id];
+    if (!replacedId || !drivers[replacedId]) return;
 
-    const teamDrivers = {} as {
-      [key: string]: string[]
-    };
-
-    Object.keys(drivers).forEach((driverId) => {
-      const driver = drivers[driverId];
-
-      if (!teamDrivers[driver.team]) {
-        teamDrivers[driver.team] = [driver.name]
-      } else {
-        teamDrivers[driver.team].push(driver.name)
-      }
-    });
-
-    const driversOnTeam = teamDrivers[replacementTeam];
-
-    if (!driversOnTeam) return;
-
-    const replacedDriver = driverStats[driversOnTeam[0]] ? driversOnTeam[1] : driversOnTeam[0];
+    const replacedDriver = drivers[replacedId].name;
+    if (driverStats[replacedDriver]?.[raceName]) return;
 
     driverStats[replacedDriver] = {
       ...driverStats[replacedDriver],
       [raceName]: replacement.position,
     }
-
   })
 }
 

@@ -98,6 +98,12 @@ export const allRaces =
         "match_date": "2026-09-26",
     },
     {
+        "id": 1154,
+        "name": "Bahrain Grand Prix",
+        "date": "4 October",
+        "match_date": "2026-10-04",
+    },
+    {
         "id": 1168,
         "name": "Singapore Grand Prix",
         "date": "11 October",
