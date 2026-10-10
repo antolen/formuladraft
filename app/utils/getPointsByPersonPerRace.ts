@@ -1,4 +1,5 @@
 import { drivers } from '../static/drivers';
+import { getPointsForPosition } from './getPointsForPosition';
 import { allRaces } from '../static/races';
 import { type DriverStats } from './getPointsByDriver';
 
@@ -41,7 +42,7 @@ export function getPointsByPersonPerRace(driverStats: DriverStats): RaceStanding
     Object.keys(driverResults).forEach((raceName) => {
       const pos = driverResults[raceName];
       if (!Number(pos)) return; // skip DNFs / non-numeric positions
-      const points = Math.abs(Number(pos) - 21); // same scoring as getPointsByPerson
+      const points = getPointsForPosition(pos);
 
       if (!perRacePoints[raceName]) perRacePoints[raceName] = {};
       perRacePoints[raceName][driver.pick] = (perRacePoints[raceName][driver.pick] ?? 0) + points;

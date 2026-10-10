@@ -1,4 +1,5 @@
 import { drivers } from '../static/drivers';
+import { getPointsForPosition } from './getPointsForPosition';
 import { type DriverStats } from './getPointsByDriver';
 
 type PersonStats = {
@@ -20,7 +21,7 @@ export const getPointsByPerson = (allResults: DriverStats) => {
     if (driverResults) {
       Object.keys(driverResults).forEach((raceKey) => {
         if (Number(driverResults[raceKey])) {
-        const points = Math.abs(Number(driverResults[raceKey]) - 21);
+        const points = getPointsForPosition(driverResults[raceKey]);
 
         if (!currentDriver.pick) return;
 
