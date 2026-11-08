@@ -12,6 +12,8 @@ export type DriverStats = {
 // Only applied in races where the drafted driver has no result of their own.
 const SUBSTITUTES: Record<string, string> = {
   'yuki-tsunoda': 'isack-hadjar',
+  'ryo-hirakawa': 'esteban-ocon',
+  'rafael-camara': 'esteban-ocon',
 };
 
 const matchReplacementsToDriver = (raceName: string, replacements: FormattedDriverResult[], driverStats: DriverStats) => {

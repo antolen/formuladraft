@@ -73,11 +73,14 @@ async function getRaceResults() {
       const newResult = await fetchApiResult();
 
       if (newResult) {
-        await put(RACE_RESULTS_BLOB_PATH, JSON.stringify(newResult), {
-          access: 'private',
-          allowOverwrite: true,
-          contentType: 'application/json',
-        });
+        const newJson = JSON.stringify(newResult);
+        if (newJson !== JSON.stringify(currentResults)) {
+          await put(RACE_RESULTS_BLOB_PATH, newJson, {
+            access: 'private',
+            allowOverwrite: true,
+            contentType: 'application/json',
+          });
+        }
         return formatRaceResults(newResult);
       }
     }
