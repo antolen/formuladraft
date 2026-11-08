@@ -1,9 +1,10 @@
 import { AllResults, Race } from "../static/raceResults";
+import { allRaces } from "../static/races";
 
-// API race names that differ from the names in static/races.ts
-const RACE_NAME_ALIASES: Record<string, string> = {
-  'Netherlands Grand Prix': 'Dutch Grand Prix',
-};
+// The API's race names don't always match static/races.ts (e.g. "Mexican" vs
+// "Mexico City"), so use the calendar name for the matching race id
+const getCalendarRaceName = (race: Race) =>
+  allRaces.find((calendarRace) => calendarRace.id === race.race_id)?.name ?? race.race_name;
 
 export const formatSingleResult = (race: Race) => {
   const driverResults = race.results.map((result) => ({
@@ -17,7 +18,7 @@ export const formatSingleResult = (race: Race) => {
 
   return ({
     round: race.race_id,
-    raceName: RACE_NAME_ALIASES[race.race_name] ?? race.race_name,
+    raceName: getCalendarRaceName(race),
     circuit: {
       country: race.country,
       locality: race.race_name,
